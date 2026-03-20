@@ -3,7 +3,7 @@ FROM python:3.10-slim
 
 # Set working dir
 WORKDIR /app
-
+ENV PYTHONPATH=/app
 # Copy files
 COPY . .
 

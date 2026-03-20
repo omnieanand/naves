@@ -4,7 +4,7 @@ from app.ui.hero import render_hero
 from app.ui.products import render_products
 from app.ui.footer import render_footer
 from app.services.product_service import search_products
-
+import os
 with gr.Blocks(css="""
 body {background-color: #ffffff;}
 .header {display:flex; justify-content:space-between; align-items:center;}
@@ -29,6 +29,9 @@ body {background-color: #ffffff;}
     # FOOTER
     render_footer()
 
-demo.launch(server_name="0.0.0.0", server_port=7860)
 
+
+port = int(os.environ.get("PORT", 7860))
+
+demo.launch(server_name="0.0.0.0", server_port=port)
 
