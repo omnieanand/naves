@@ -29,3 +29,7 @@ jobs:
             -t anandomnie/naves-ui:latest \
             --push \
             .
+
+      - name: Trigger Render Deploy
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}

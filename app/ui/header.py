@@ -6,6 +6,8 @@ def render_header():
         with gr.Row(elem_classes="nav"):
             gr.Markdown("## 🚀 NAVES CI/CD LIVE SUCCESS")
             gr.Markdown("## 🚀 FINAL DEPLOY SUCCESS")
+            gr.Markdown("## 🚀 first deploy Hook SUCCESS")
+
             gr.Button("Home")
             gr.Button("Men")
             gr.Button("Women")
