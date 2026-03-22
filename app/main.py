@@ -1,7 +1,6 @@
 import gradio as gr
 import os
 
-# UI Components
 from app.ui.header import render_header
 from app.ui.hero import render_hero
 from app.ui.categories import render_categories
@@ -16,54 +15,60 @@ from app.ui.carousel import render_carousel
 from app.ui.filters import render_filters
 from app.ui.theme import render_theme_toggle
 
-# DATA + SERVICES
-from app.data.dummy_data import products
-from app.services.product_service import search_products, filter_products
+from app.data.dummy_data import products, categories
+from app.services.product_service import search_products, filter_products, get_all_products
 
 
-# -------------------------
-# APP UI
-# -------------------------
 with gr.Blocks(css=GLOBAL_CSS) as demo:
+    gr.HTML('<div id="top"></div>')
 
-    # HEADER
     search = render_header()
-
-    # 🌙 DARK MODE
     render_theme_toggle()
-
-    # 🔄 CAROUSEL
     render_carousel()
-
-    # HERO
     render_hero()
+    render_categories(categories)
 
-    # CATEGORIES
-    render_categories()
-
-    # 🧠 FILTERS
+    gr.HTML("""
+    <section class="section-block" id="running">
+        <div class="section-heading split">
+            <div>
+                <span class="eyebrow">Discover</span>
+                <h2>Filter the collection like a real storefront</h2>
+            </div>
+            <p>Professional shopping experiences feel organized. Users should be able to move from inspiration to a narrowed product set in one scroll.</p>
+        </div>
+    </section>
+    """)
     category = render_filters()
-    filtered_gallery = gr.Gallery(columns=4, label="Filtered Products")
+    filtered_gallery = gr.Gallery(
+        value=get_all_products(),
+        columns=3,
+        label="Filtered Products",
+        object_fit="cover",
+        height="auto",
+    )
 
     category.change(
-        lambda c: [(p["img"], f"{p['name']} - {p['price']}")
+        lambda c: [(p["img"], f"{p['name']}\n{p['category']}  |  {p['price_label']}")
                    for p in filter_products(products, c)],
         inputs=category,
         outputs=filtered_gallery
     )
 
-    # PRODUCTS
     render_products(products)
-
-    # PROMO
     render_promo()
-
-    # MEMBERSHIP
     render_membership()
 
-    # 🔍 SEARCH
-    gr.Markdown("## 🔍 Search Results")
-    result_gallery = gr.Gallery(columns=4)
+    gr.HTML("""
+    <section class="section-block" id="sneakers">
+        <div class="section-heading">
+            <span class="eyebrow">Search</span>
+            <h2>Search results should feel curated, not raw.</h2>
+            <p>Even utility interactions benefit from stronger hierarchy, better spacing, and richer metadata.</p>
+        </div>
+    </section>
+    """)
+    result_gallery = gr.Gallery(columns=3, value=get_all_products(), object_fit="cover")
 
     search.submit(
         search_products,
@@ -71,22 +76,16 @@ with gr.Blocks(css=GLOBAL_CSS) as demo:
         outputs=result_gallery
     )
 
-    # 🌙 DARK MODE SCRIPT
     gr.HTML("""
     <script>
     function toggleDarkMode() {
-        const app = document.querySelector('body');
-        app.classList.toggle("dark");
+        document.body.classList.toggle("dark");
     }
     </script>
     """)
-    # FOOTER
     render_footer()
 
 
-# -------------------------
-# RUN APP
-# -------------------------
 port = int(os.environ.get("PORT", 7860))
 
 demo.launch(

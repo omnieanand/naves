@@ -1,14 +1,29 @@
 import gradio as gr
 
-def render_categories():
-    gr.Markdown("## Shop By Category")
 
-    with gr.Row():
-        for cat in ["Running", "Sneakers", "Football"]:
-            gr.HTML(f"""
-            <div style="text-align:center;">
-                <img src="https://picsum.photos/300" 
-                     style="border-radius:12px;" />
-                <h3>{cat}</h3>
+def render_categories(categories):
+    cards = []
+    for category in categories:
+        cards.append(f"""
+        <article class="category-card">
+            <img src="{category['img']}" alt="{category['name']}" />
+            <div class="category-card__body">
+                <span>Shop now</span>
+                <h3>{category['name']}</h3>
+                <p>{category['caption']}</p>
             </div>
-            """)
+        </article>
+        """)
+
+    gr.HTML(f"""
+    <section class="section-block">
+        <div class="section-heading">
+            <span class="eyebrow">Categories</span>
+            <h2>Find your lane</h2>
+            <p>Discover collections tailored for performance, sport, and everyday rotation.</p>
+        </div>
+        <div class="category-grid">
+            {''.join(cards)}
+        </div>
+    </section>
+    """)

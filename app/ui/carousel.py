@@ -1,23 +1,25 @@
 import gradio as gr
 
+
 def render_carousel():
     gr.HTML("""
-    <div class="carousel">
-        <img id="carousel-img" src="https://picsum.photos/1400/500?1"/>
-    </div>
+    <section class="campaign-strip">
+        <div class="campaign-strip__item">Free shipping over ₹7,500</div>
+        <div class="campaign-strip__item">Members get early access to every launch</div>
+        <div class="campaign-strip__item">New season styles live now</div>
+    </section>
 
     <script>
-    let images = [
-        "https://picsum.photos/1400/500?1",
-        "https://picsum.photos/1400/500?2",
-        "https://picsum.photos/1400/500?3"
-    ];
+    const items = document.querySelectorAll(".campaign-strip__item");
+    let activeIndex = 0;
 
-    let index = 0;
-
-    setInterval(() => {
-        index = (index + 1) % images.length;
-        document.getElementById("carousel-img").src = images[index];
-    }, 3000);
+    if (items.length) {
+        items[activeIndex].classList.add("is-active");
+        setInterval(() => {
+            items[activeIndex].classList.remove("is-active");
+            activeIndex = (activeIndex + 1) % items.length;
+            items[activeIndex].classList.add("is-active");
+        }, 2400);
+    }
     </script>
     """)

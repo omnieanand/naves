@@ -1,9 +1,16 @@
 import gradio as gr
 
+
 def render_promo():
     gr.HTML("""
-    <div style="background:black; color:white; padding:40px; text-align:center;">
-        <h2>🔥 END OF SEASON SALE</h2>
-        <p>UP TO 50% OFF</p>
-    </div>
+    <section class="promo-banner">
+        <div>
+            <span class="eyebrow">Member Week</span>
+            <h2>Unlock early access to limited drops and curated offers.</h2>
+        </div>
+        <div class="promo-banner__aside">
+            <p>Members get launch alerts, priority access, and exclusive event invitations.</p>
+            <a class="btn btn-dark" href="#membership">Become a Member</a>
+        </div>
+    </section>
     """)

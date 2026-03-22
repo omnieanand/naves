@@ -3,49 +3,42 @@ import gradio as gr
 
 def render_hero():
     gr.HTML("""
-    <div style="position:relative; margin-bottom:40px;">
-
-        <!-- Background Image -->
-        <img src="https://picsum.photos/1400/500"
-             style="width:100%; height:500px; object-fit:cover; border-radius:12px;" />
-
-        <!-- Overlay -->
-        <div style="
-            position:absolute;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            background:rgba(0,0,0,0.3);
-            border-radius:12px;
-        "></div>
-
-        <!-- Text Content -->
-        <div style="
-            position:absolute;
-            top:30%;
-            left:5%;
-            color:white;
-        ">
-            <h1 style="font-size:52px; font-weight:800; margin-bottom:10px;">
-                IMPOSSIBLE IS NOTHING
-            </h1>
-            <p style="font-size:18px; margin-bottom:20px;">
-                Step into NAVES — redefine your performance
+    <section class="hero-shell">
+        <div class="hero-copy">
+            <span class="eyebrow">New season / high performance</span>
+            <h1>Built like a flagship launch, not a prototype.</h1>
+            <p>
+                Premium footwear, sharp editorial storytelling, and a store experience
+                that feels fast, credible, and brand-led from the first scroll.
             </p>
-
-            <button style="
-                padding:12px 28px;
-                background:white;
-                color:black;
-                border:none;
-                font-weight:bold;
-                cursor:pointer;
-                border-radius:5px;
-            ">
-                SHOP NOW
-            </button>
+            <div class="hero-actions">
+                <a class="btn btn-light" href="#new">Shop New Arrivals</a>
+                <a class="btn btn-ghost" href="#membership">Join Membership</a>
+            </div>
         </div>
-
-    </div>
+        <div class="hero-metrics">
+            <div>
+                <strong>250+</strong>
+                <span>style variants</span>
+            </div>
+            <div>
+                <strong>48h</strong>
+                <span>dispatch promise</span>
+            </div>
+            <div>
+                <strong>4.8/5</strong>
+                <span>community rating</span>
+            </div>
+        </div>
+        <div class="hero-spotlight">
+            <span>Featured drop</span>
+            <h3>Naves Adrenaline Pro</h3>
+            <p>Race-inspired cushioning with a street-ready silhouette.</p>
+        </div>
+        <img
+            class="hero-image"
+            src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=1600&q=80"
+            alt="Naves campaign hero"
+        />
+    </section>
     """)
