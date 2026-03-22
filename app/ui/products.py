@@ -1,11 +1,14 @@
 import gradio as gr
-from app.services.product_service import get_all_products
 
-def render_products():
+def render_products(products):
     gr.Markdown("## Trending Products")
 
-    return gr.Gallery(
-        get_all_products(),
-        columns=4,
-        height=300
-    )
+    with gr.Row():
+        for p in products:
+            gr.HTML(f"""
+            <div class="product-card">
+                <img src="{p['img']}" style="width:100%; border-radius:10px;" />
+                <h4>{p['name']}</h4>
+                <p>{p['price']}</p>
+            </div>
+            """)
