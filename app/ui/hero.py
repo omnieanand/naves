@@ -4,40 +4,45 @@ import gradio as gr
 def render_hero():
     gr.HTML("""
     <section class="hero-shell">
-        <div class="hero-copy">
-            <span class="eyebrow">New season / high performance</span>
-            <h1>Built like a flagship launch, not a prototype.</h1>
-            <p>
-                Premium footwear, sharp editorial storytelling, and a store experience
-                that feels fast, credible, and brand-led from the first scroll.
-            </p>
-            <div class="hero-actions">
-                <a class="btn btn-light" href="#new">Shop New Arrivals</a>
-                <a class="btn btn-ghost" href="#membership">Join Membership</a>
+        <div class="hero-panel">
+            <div class="hero-copy">
+                <span class="eyebrow">Spring / Summer 2026</span>
+                <h1>Performance, styled with restraint.</h1>
+                <p>
+                    A cleaner white-first storefront, sharper product storytelling,
+                    and premium essentials built for movement across sport and city life.
+                </p>
+                <div class="hero-actions">
+                    <a class="btn btn-dark" href="#new">Shop New Arrivals</a>
+                    <a class="btn btn-outline" href="#product-detail">Explore Product Detail</a>
+                </div>
+            </div>
+            <div class="hero-note-card">
+                <span class="eyebrow">Editor's Note</span>
+                <h3>Make the product the hero.</h3>
+                <p>
+                    The strongest retail homepages use space, image quality, and typography
+                    to create confidence before users ever touch a filter.
+                </p>
             </div>
         </div>
-        <div class="hero-metrics">
-            <div>
-                <strong>250+</strong>
-                <span>style variants</span>
-            </div>
-            <div>
-                <strong>48h</strong>
-                <span>dispatch promise</span>
-            </div>
+        <div class="hero-floating-metrics">
             <div>
                 <strong>4.8/5</strong>
-                <span>community rating</span>
+                <span>average product rating</span>
             </div>
-        </div>
-        <div class="hero-spotlight">
-            <span>Featured drop</span>
-            <h3>Naves Adrenaline Pro</h3>
-            <p>Race-inspired cushioning with a street-ready silhouette.</p>
+            <div>
+                <strong>14 days</strong>
+                <span>free returns window</span>
+            </div>
+            <div>
+                <strong>48 hrs</strong>
+                <span>priority dispatch</span>
+            </div>
         </div>
         <img
             class="hero-image"
-            src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=1600&q=80"
+            src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=1800&q=80"
             alt="Naves campaign hero"
         />
     </section>

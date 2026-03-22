@@ -3,10 +3,11 @@ import gradio as gr
 
 def render_carousel():
     gr.HTML("""
-    <section class="campaign-strip">
+    <section class="campaign-strip light">
         <div class="campaign-strip__item">Free shipping over ₹7,500</div>
+        <div class="campaign-strip__item">Free returns within 14 days</div>
         <div class="campaign-strip__item">Members get early access to every launch</div>
-        <div class="campaign-strip__item">New season styles live now</div>
+        <div class="campaign-strip__item">Secure checkout and verified payments</div>
     </section>
 
     <script>

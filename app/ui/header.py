@@ -18,15 +18,24 @@ def render_header():
             <a href="#new">New In</a>
             <a href="#running">Running</a>
             <a href="#sneakers">Sneakers</a>
+            <a href="#spotlight">Spotlight</a>
             <a href="#membership">Membership</a>
         </nav>
         """)
 
-        search = gr.Textbox(
-            placeholder="Search shoes, collections, categories...",
-            container=False,
-            elem_classes="header-search",
-            show_label=False,
-        )
+        with gr.Row(elem_classes="header-tools"):
+            search = gr.Textbox(
+                placeholder="Search shoes, collections, categories...",
+                container=False,
+                elem_classes="header-search",
+                show_label=False,
+            )
+            gr.HTML("""
+            <div class="header-actions">
+                <a href="#top">Account</a>
+                <a href="#top">Wishlist</a>
+                <a href="#top">Bag (0)</a>
+            </div>
+            """)
 
     return search
