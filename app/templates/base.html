@@ -24,10 +24,13 @@
                     {% endfor %}
                 </nav>
 
-                <form class="search-form" action="{{ url_for('search') }}" method="get">
-                    <input type="search" name="q" placeholder="Search" value="{{ search_query|default('') }}">
-                    <button type="submit">Search</button>
-                </form>
+                <div class="nav-tools">
+                    <form class="search-form" action="{{ url_for('search') }}" method="get">
+                        <input type="search" name="q" placeholder="Search" value="{{ search_query|default('') }}">
+                        <button type="submit">Search</button>
+                    </form>
+                    <a class="cart-link" href="{{ url_for('cart') }}">Bag ({{ cart_count }})</a>
+                </div>
             </div>
         </header>
 

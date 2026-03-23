@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}NAVES | Bag{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="breadcrumbs"><a href="{{ url_for('home') }}">Home</a> / Bag</div>
+    <h1>Your Bag</h1>
+    <p>Review your selected products, adjust quantities, and prepare for checkout.</p>
+</section>
+
+{% if cart_items %}
+<section class="cart-layout">
+    <div class="cart-items">
+        {% for item in cart_items %}
+        <article class="cart-item">
+            <img src="{{ item.product.img }}" alt="{{ item.product.name }}">
+            <div class="cart-item__body">
+                <h3><a href="{{ url_for('product_detail', slug=item.product.slug) }}">{{ item.product.name }}</a></h3>
+                <p>{{ item.product.category }} | {{ item.product.price_label }}</p>
+                <p>{{ item.product.delivery }}</p>
+
+                <div class="cart-item__actions">
+                    <form action="{{ url_for('update_cart') }}" method="post">
+                        <input type="hidden" name="slug" value="{{ item.product.slug }}">
+                        <label>
+                            Qty
+                            <input class="quantity-input" type="number" name="quantity" min="0" value="{{ item.quantity }}">
+                        </label>
+                        <button class="btn btn-light" type="submit">Update</button>
+                    </form>
+
+                    <form action="{{ url_for('remove_from_cart') }}" method="post">
+                        <input type="hidden" name="slug" value="{{ item.product.slug }}">
+                        <button class="btn btn-light" type="submit">Remove</button>
+                    </form>
+                </div>
+            </div>
+            <div class="cart-item__total">{{ item.line_total_label }}</div>
+        </article>
+        {% endfor %}
+    </div>
+
+    <aside class="cart-summary">
+        <h2>Order Summary</h2>
+        <div class="summary-row">
+            <span>Items</span>
+            <span>{{ total_items }}</span>
+        </div>
+        <div class="summary-row">
+            <span>Subtotal</span>
+            <strong>₹{{ "{:,}".format(subtotal) }}</strong>
+        </div>
+        <p>Shipping and taxes are calculated at checkout.</p>
+        <a class="btn btn-dark" href="{{ url_for('home') }}">Proceed to Checkout</a>
+    </aside>
+</section>
+{% else %}
+<section class="empty-state">
+    <h2>Your bag is empty</h2>
+    <p>Add a few products to start building a real shopping flow.</p>
+    <a class="btn btn-dark" href="{{ url_for('shoes') }}">Shop Shoes</a>
+</section>
+{% endif %}
+{% endblock %}

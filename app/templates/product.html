@@ -62,10 +62,13 @@
 
         <p class="fit-note">{{ product.fit_note }}</p>
 
-        <div class="cta-row">
-            <a class="btn btn-dark" href="{{ url_for('home') }}">Add to Bag</a>
+        <form class="cta-row" action="{{ url_for('add_to_cart') }}" method="post">
+            <input type="hidden" name="slug" value="{{ product.slug }}">
+            <input type="hidden" name="redirect_to" value="{{ request.path }}">
+            <input class="quantity-input" type="number" name="quantity" min="1" value="1">
+            <button class="btn btn-dark" type="submit">Add to Bag</button>
             <a class="btn btn-light" href="{{ url_for('home') }}">Save to Wishlist</a>
-        </div>
+        </form>
     </div>
 </section>
 

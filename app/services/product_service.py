@@ -102,6 +102,31 @@ def get_related_products(slug, limit=4):
     return related[:limit]
 
 
+def get_cart_items(cart_map):
+    items = []
+    subtotal = 0
+    total_items = 0
+
+    for slug, quantity in cart_map.items():
+        product = get_product_by_slug(slug)
+        if not product:
+            continue
+
+        line_total = product["price"] * quantity
+        subtotal += line_total
+        total_items += quantity
+        items.append(
+            {
+                "product": product,
+                "quantity": quantity,
+                "line_total": line_total,
+                "line_total_label": f"₹{line_total:,}",
+            }
+        )
+
+    return items, subtotal, total_items
+
+
 def get_nav_products(selection):
     if selection == "NAVES":
         return products
