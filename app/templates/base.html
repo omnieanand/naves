@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="site-shell">
-        <header class="site-header">
+        <header class="site-header" id="site-header">
             <div class="utility-bar">
                 {% for item in utility_links %}
                     <a href="{{ url_for('home') }}#footer">{{ item }}</a>
@@ -29,7 +29,7 @@
                         <input type="search" name="q" placeholder="Search" value="{{ search_query|default('') }}">
                         <button type="submit">Search</button>
                     </form>
-                    <a class="cart-link" href="{{ url_for('cart') }}">Bag ({{ cart_count }})</a>
+                    <a class="cart-link" href="{{ url_for('cart') }}"><span class="cart-icon" aria-hidden="true">🛒</span> Bag ({{ cart_count }})</a>
                 </div>
             </div>
         </header>
@@ -69,5 +69,14 @@
             <div class="footer-bar">© 2026 NAVES. All rights reserved.</div>
         </footer>
     </div>
+    <script>
+        const siteHeader = document.getElementById("site-header");
+        const toggleHeaderShadow = () => {
+            if (!siteHeader) return;
+            siteHeader.classList.toggle("header-scrolled", window.scrollY > 12);
+        };
+        window.addEventListener("scroll", toggleHeaderShadow, { passive: true });
+        toggleHeaderShadow();
+    </script>
 </body>
 </html>

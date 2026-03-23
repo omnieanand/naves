@@ -2,6 +2,7 @@
     <a class="product-card__image-link" href="{{ url_for('product_detail', slug=product.slug) }}">
         <img src="{{ product.img }}" alt="{{ product.name }}">
         <span class="badge">{{ product.badge }}</span>
+        <span class="product-card__quick-action">Quick View</span>
     </a>
     <div class="product-card__body">
         <div class="product-meta">
@@ -17,7 +18,7 @@
                     <span class="old-price">{{ product.original_price_label }}</span>
                 {% endif %}
             </div>
-            <a class="btn btn-light" href="{{ url_for('product_detail', slug=product.slug) }}">View Product</a>
+            <a class="btn btn-light product-card__cta" href="{{ url_for('product_detail', slug=product.slug) }}">View Product</a>
         </div>
     </div>
 </article>

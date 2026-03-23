@@ -24,7 +24,7 @@
             <img src="{{ story.img }}" alt="{{ story.title }}">
             <div class="story-card__body">
                 <h3>{{ story.title }}</h3>
-                <p>{{ story.copy }}</p>
+                <p>{{ story["copy"] }}</p>
                 <a href="{{ url_for('shoes') }}">{{ story.cta }}</a>
             </div>
         </article>
