@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}NAVES | Invoice {{ order.order_number }}{% endblock %}
+
+{% block content %}
+<section class="page-hero invoice-hero">
+    <div class="breadcrumbs"><a href="{{ url_for('home') }}">Home</a> / Invoice</div>
+    <h1>Order Confirmed</h1>
+    <p>Your order has been placed successfully. This invoice captures the full purchase and delivery details.</p>
+</section>
+
+<section class="invoice-layout">
+    <div class="invoice-main">
+        <article class="checkout-card">
+            <span class="kicker">Invoice</span>
+            <h2>{{ order.order_number }}</h2>
+            <p>Placed on {{ order.placed_at }}</p>
+        </article>
+
+        <article class="checkout-card">
+            <span class="kicker">Shipping Address</span>
+            <h2>{{ order.shipping.full_name }}</h2>
+            <div class="address-block">
+                {% for line in order.address_lines %}
+                    <div>{{ line }}</div>
+                {% endfor %}
+            </div>
+            <p>{{ order.shipping.phone }} | {{ order.shipping.email }}</p>
+        </article>
+
+        <article class="checkout-card">
+            <span class="kicker">Payment</span>
+            <h2>{{ order.payment_method }}</h2>
+            <p>Payment status: confirmed</p>
+        </article>
+
+        <article class="checkout-card">
+            <span class="kicker">Products</span>
+            <h2>Order Items</h2>
+            <div class="invoice-items">
+                {% for item in order.summary["items"] %}
+                <div class="invoice-item">
+                    <span>{{ item.product.name }}</span>
+                    <span>{{ item.product.price_label }} x {{ item.quantity }}</span>
+                    <strong>{{ item.line_total_label }}</strong>
+                </div>
+                {% endfor %}
+            </div>
+        </article>
+    </div>
+
+    <aside class="checkout-summary">
+        <h2>Invoice Summary</h2>
+        <div class="summary-row">
+            <span>Items</span>
+            <span>{{ order.summary.total_items }}</span>
+        </div>
+        <div class="summary-row">
+            <span>Subtotal</span>
+            <span>{{ order.summary.subtotal_label }}</span>
+        </div>
+        <div class="summary-row">
+            <span>Shipping</span>
+            <span>{{ order.summary.shipping_label }}</span>
+        </div>
+        <div class="summary-row">
+            <span>Taxes</span>
+            <span>{{ order.summary.taxes_label }}</span>
+        </div>
+        <div class="summary-row summary-row--total">
+            <strong>Total Paid</strong>
+            <strong>{{ order.summary.total_label }}</strong>
+        </div>
+        <a class="btn btn-dark" href="{{ url_for('home') }}">Continue Shopping</a>
+    </aside>
+</section>
+{% endblock %}

@@ -4,8 +4,10 @@ from flask import Flask, abort, redirect, render_template, request, session, url
 
 from app.services.product_service import (
     NAV_ROUTE_MAP,
+    build_order_invoice,
     get_all_products,
     get_cart_items,
+    get_checkout_summary,
     get_collection_page,
     get_filter_options,
     get_homepage_context,
@@ -110,6 +112,78 @@ def cart():
         subtotal=subtotal,
         total_items=total_items,
     )
+
+
+@app.route("/checkout")
+def checkout():
+    cart_map = session.get("cart", {})
+    summary = get_checkout_summary(cart_map)
+    if not summary["items"]:
+        return redirect(url_for("cart"))
+
+    checkout_form = session.get("checkout_form", {
+        "full_name": "",
+        "address_line_1": "",
+        "address_line_2": "",
+        "city": "",
+        "state": "",
+        "postal_code": "",
+        "country": "India",
+        "phone": "",
+        "email": "",
+        "payment_method": "Card",
+    })
+
+    return render_template("checkout.html", checkout=summary, checkout_form=checkout_form)
+
+
+@app.route("/checkout/place-order", methods=["POST"])
+def place_order():
+    cart_map = session.get("cart", {})
+    summary = get_checkout_summary(cart_map)
+    if not summary["items"]:
+        return redirect(url_for("cart"))
+
+    shipping_form = {
+        "full_name": request.form.get("full_name", "").strip(),
+        "address_line_1": request.form.get("address_line_1", "").strip(),
+        "address_line_2": request.form.get("address_line_2", "").strip(),
+        "city": request.form.get("city", "").strip(),
+        "state": request.form.get("state", "").strip(),
+        "postal_code": request.form.get("postal_code", "").strip(),
+        "country": request.form.get("country", "India").strip(),
+        "phone": request.form.get("phone", "").strip(),
+        "email": request.form.get("email", "").strip(),
+        "payment_method": request.form.get("payment_method", "Card").strip(),
+    }
+
+    required_fields = [
+        "full_name",
+        "address_line_1",
+        "city",
+        "state",
+        "postal_code",
+        "country",
+        "phone",
+        "email",
+    ]
+    if any(not shipping_form[field] for field in required_fields):
+        session["checkout_form"] = shipping_form
+        return redirect(url_for("checkout"))
+
+    invoice = build_order_invoice(cart_map, shipping_form)
+    session["last_order"] = invoice
+    session["checkout_form"] = shipping_form
+    session["cart"] = {}
+    return redirect(url_for("invoice"))
+
+
+@app.route("/invoice")
+def invoice():
+    order = session.get("last_order")
+    if not order:
+        return redirect(url_for("home"))
+    return render_template("invoice.html", order=order)
 
 
 @app.route("/cart/add", methods=["POST"])

@@ -9,6 +9,7 @@ from app.data.dummy_data import (
     trust_signals,
     utility_links,
 )
+from datetime import datetime
 
 
 NAV_ROUTE_MAP = {
@@ -125,6 +126,52 @@ def get_cart_items(cart_map):
         )
 
     return items, subtotal, total_items
+
+
+def get_checkout_summary(cart_map):
+    items, subtotal, total_items = get_cart_items(cart_map)
+    shipping = 0 if subtotal >= 12000 else 499
+    taxes = round(subtotal * 0.18)
+    total = subtotal + shipping + taxes
+
+    return {
+        "items": items,
+        "subtotal": subtotal,
+        "subtotal_label": f"₹{subtotal:,}",
+        "shipping": shipping,
+        "shipping_label": "Free" if shipping == 0 else f"₹{shipping:,}",
+        "taxes": taxes,
+        "taxes_label": f"₹{taxes:,}",
+        "total": total,
+        "total_label": f"₹{total:,}",
+        "total_items": total_items,
+        "delivery_note": "Delivery in 2-4 business days for metro cities.",
+    }
+
+
+def build_order_invoice(cart_map, shipping_form):
+    summary = get_checkout_summary(cart_map)
+    order_number = f"NAV-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+    placed_at = datetime.now().strftime("%B %d, %Y at %I:%M %p")
+    address_lines = [
+        shipping_form["full_name"],
+        shipping_form["address_line_1"],
+    ]
+    if shipping_form.get("address_line_2"):
+        address_lines.append(shipping_form["address_line_2"])
+    address_lines.append(
+        f"{shipping_form['city']}, {shipping_form['state']} {shipping_form['postal_code']}"
+    )
+    address_lines.append(shipping_form["country"])
+
+    return {
+        "order_number": order_number,
+        "placed_at": placed_at,
+        "shipping": shipping_form,
+        "address_lines": address_lines,
+        "summary": summary,
+        "payment_method": shipping_form.get("payment_method", "Card"),
+    }
 
 
 def get_nav_products(selection):
