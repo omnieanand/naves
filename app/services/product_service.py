@@ -1,5 +1,6 @@
 from app.data.dummy_data import (
     categories,
+    hero_slides,
     hot_stories,
     link_groups,
     primary_nav,
@@ -37,7 +38,6 @@ def get_homepage_context():
             "kicker": "Engineered For Champions",
             "title": "Run Faster. Push Harder.",
             "copy": "Performance footwear tuned for speed, confidence, and repeat wear. Designed to help athletes move with more intent every day.",
-            "image": "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=1800&q=80",
             "urgency": "New drop live now | Member discount ends tonight",
             "identity_points": [
                 "Built for runners who refuse limits",
@@ -45,6 +45,7 @@ def get_homepage_context():
                 "Performance that still looks sharp off the track",
             ],
         },
+        "hero_slides": hero_slides,
         "hot_stories": hot_stories,
         "style_shortcuts": style_shortcuts,
         "categories": categories,

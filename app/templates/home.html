@@ -4,15 +4,26 @@
 
 {% block content %}
 <section class="hero">
-    <img src="{{ hero.image }}" alt="{{ hero.title }}">
+    <div class="hero-media" data-hero-carousel>
+        {% for slide in hero_slides %}
+        <div class="hero-slide{% if loop.first %} is-active{% endif %}">
+            <img src="{{ slide.image }}" alt="{{ slide.title }}" style="object-position: {{ slide.position }};">
+        </div>
+        {% endfor %}
+    </div>
     <div class="hero-overlay">
         <span class="kicker">{{ hero.kicker }}</span>
         <h1>{{ hero.title }}</h1>
-        <p>{{ hero["copy"] }}</p>
-        <div class="hero-urgency">{{ hero.urgency }}</div>
+        <p data-hero-copy>{{ hero["copy"] }}</p>
+        <div class="hero-urgency" data-hero-urgency>{{ hero.urgency }}</div>
         <div class="cta-row">
             <a class="btn btn-light" href="{{ url_for('men') }}">Shop Men</a>
             <a class="btn btn-light" href="{{ url_for('women') }}">Shop Women</a>
+        </div>
+        <div class="hero-progress" aria-hidden="true">
+            {% for slide in hero_slides %}
+            <span class="hero-progress__dot{% if loop.first %} is-active{% endif %}"></span>
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -43,7 +54,7 @@
     <div class="story-grid">
         {% for story in hot_stories %}
         <article class="story-card">
-            <img src="{{ story.img }}" alt="{{ story.title }}">
+            <img src="{{ story.img }}" alt="{{ story.title }}" style="object-position: {{ story.position|default('center center') }};">
             <div class="story-card__body">
                 <h3>{{ story.title }}</h3>
                 <p>{{ story["copy"] }}</p>
@@ -72,7 +83,7 @@
     <div class="category-grid">
         {% for category in categories %}
         <article class="category-card">
-            <img src="{{ category.img }}" alt="{{ category.name }}">
+            <img src="{{ category.img }}" alt="{{ category.name }}" style="object-position: {{ category.position|default('center center') }};">
             <div class="category-card__body">
                 <span>Shop now</span>
                 <h3>{{ category.name }}</h3>
@@ -92,7 +103,7 @@
     <div class="sport-grid">
         {% for item in sport_tiles %}
         <article class="sport-tile">
-            <img src="{{ item.img }}" alt="{{ item.name }}">
+            <img src="{{ item.img }}" alt="{{ item.name }}" style="object-position: {{ item.position|default('center center') }};">
             <span>{{ item.name }}</span>
         </article>
         {% endfor %}
@@ -147,4 +158,41 @@
     </div>
     <a class="btn btn-dark" href="{{ url_for('home') }}">Sign Up For Free</a>
 </section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    (() => {
+        const hero = document.querySelector("[data-hero-carousel]");
+        if (!hero) return;
+
+        const slides = Array.from(hero.querySelectorAll(".hero-slide"));
+        const dots = Array.from(document.querySelectorAll(".hero-progress__dot"));
+        const copyTarget = document.querySelector("[data-hero-copy]");
+        const urgencyTarget = document.querySelector("[data-hero-urgency]");
+        const slideContent = {{ hero_slides | tojson }};
+
+        if (slides.length < 2) return;
+
+        let currentIndex = 0;
+
+        const setSlide = (nextIndex) => {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle("is-active", index === nextIndex);
+            });
+            dots.forEach((dot, index) => {
+                dot.classList.toggle("is-active", index === nextIndex);
+            });
+
+            if (copyTarget) copyTarget.textContent = slideContent[nextIndex].copy;
+            if (urgencyTarget) urgencyTarget.textContent = slideContent[nextIndex].urgency;
+            currentIndex = nextIndex;
+        };
+
+        window.setInterval(() => {
+            const nextIndex = (currentIndex + 1) % slides.length;
+            setSlide(nextIndex);
+        }, 4200);
+    })();
+</script>
 {% endblock %}

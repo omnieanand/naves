@@ -187,21 +187,55 @@ products = [
     },
 ]
 
+hero_slides = [
+    {
+        "title": "Run Faster. Push Harder.",
+        "copy": "Performance footwear tuned for speed, confidence, and repeat wear. Designed to help athletes move with more intent every day.",
+        "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1800&q=80",
+        "position": "76% center",
+        "urgency": "New drop live now | Member discount ends tonight",
+    },
+    {
+        "title": "Run Faster. Push Harder.",
+        "copy": "Built for sharper transitions, smoother long runs, and a stronger everyday silhouette.",
+        "image": "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=1800&q=80",
+        "position": "72% center",
+        "urgency": "Fresh running colorways just landed",
+    },
+    {
+        "title": "Run Faster. Push Harder.",
+        "copy": "Responsive cushioning and cleaner design language for athletes who want performance with presence.",
+        "image": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=1800&q=80",
+        "position": "74% center",
+        "urgency": "Member pricing available on selected drops",
+    },
+    {
+        "title": "Run Faster. Push Harder.",
+        "copy": "Engineered to move through training, city miles, and repeat wear without losing visual impact.",
+        "image": "https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=1800&q=80",
+        "position": "70% center",
+        "urgency": "Limited stock in this week’s featured pairs",
+    },
+]
+
 categories = [
     {
         "name": "Running",
         "caption": "Responsive runners designed for daily mileage, fast intervals, and race-day confidence.",
         "img": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=1200&q=80",
+        "position": "center 40%",
     },
     {
         "name": "Sneakers",
         "caption": "Minimal silhouettes and premium materials for a stronger everyday rotation.",
         "img": "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=1200&q=80",
+        "position": "center 30%",
     },
     {
         "name": "Football",
         "caption": "Engineered grip, fast transitions, and a locked-in feel built for match intensity.",
         "img": "https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&w=1200&q=80",
+        "position": "center 34%",
     },
 ]
 
@@ -235,18 +269,21 @@ hot_stories = [
         "copy": "Built for comfort. Tuned for movement across city miles and race pace.",
         "cta": "Shop Running",
         "img": "https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&w=1200&q=80",
+        "position": "center 35%",
     },
     {
         "title": "Naves Teamwear",
         "copy": "Technical layers and match-day essentials with cleaner lines and stronger function.",
         "cta": "Shop Teamwear",
         "img": "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1200&q=80",
+        "position": "center center",
     },
     {
         "title": "Naves Studio",
         "copy": "Training silhouettes designed for repeat wear, support, and easy styling.",
         "cta": "Shop Training",
         "img": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=80",
+        "position": "center 32%",
     },
 ]
 
@@ -258,10 +295,26 @@ style_shortcuts = [
 ]
 
 sport_tiles = [
-    {"name": "Cricket", "img": "https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=1200&q=80"},
-    {"name": "Running", "img": "https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=1200&q=80"},
-    {"name": "Training", "img": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=80"},
-    {"name": "Football", "img": "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=80"},
+    {
+        "name": "Cricket",
+        "img": "https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=1200&q=80",
+        "position": "center 30%",
+    },
+    {
+        "name": "Running",
+        "img": "https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=1200&q=80",
+        "position": "center 32%",
+    },
+    {
+        "name": "Training",
+        "img": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=80",
+        "position": "center 28%",
+    },
+    {
+        "name": "Football",
+        "img": "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=80",
+        "position": "center 36%",
+    },
 ]
 
 link_groups = [

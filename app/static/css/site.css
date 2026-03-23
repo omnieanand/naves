@@ -195,22 +195,48 @@ img {
     position: relative;
     margin: 22px 0 44px;
     border: 1px solid var(--line);
+    overflow: hidden;
+    min-height: 700px;
+    display: flex;
+    align-items: center;
+    background: #f3f3f3;
 }
 
-.hero img {
+.hero-media,
+.hero-slide {
+    position: absolute;
+    inset: 0;
+}
+
+.hero-slide {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.hero-slide.is-active {
+    opacity: 1;
+}
+
+.hero-slide img {
     width: 100%;
-    height: 680px;
+    height: 700px;
     object-fit: cover;
+    object-position: 74% center;
 }
 
 .hero-overlay {
     position: absolute;
-    left: 48px;
-    bottom: 48px;
-    max-width: 520px;
-    padding: 26px 30px;
-    background: rgba(255, 255, 255, 0.95);
+    left: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(400px, calc(100% - 56px));
+    padding: 28px 30px;
+    background: rgba(255, 255, 255, 0.76);
     border: 1px solid rgba(17, 17, 17, 0.08);
+    box-shadow: 0 18px 40px rgba(17, 17, 17, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1;
 }
 
 .hero-urgency {
@@ -228,6 +254,24 @@ img {
     flex-wrap: wrap;
     gap: 10px;
     margin-top: 16px;
+}
+
+.hero-progress {
+    display: flex;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.hero-progress__dot {
+    width: 26px;
+    height: 3px;
+    background: rgba(17, 17, 17, 0.16);
+    transition: background 0.24s ease, transform 0.24s ease;
+}
+
+.hero-progress__dot.is-active {
+    background: var(--text);
+    transform: scaleX(1.08);
 }
 
 .why-naves-row {
@@ -393,8 +437,10 @@ img {
 }
 
 .story-card img {
-    height: 320px;
+    width: 100%;
+    height: 292px;
     object-fit: cover;
+    object-position: center center;
     transition: transform 0.45s ease;
 }
 
@@ -437,14 +483,16 @@ img {
 }
 
 .category-card img {
-    height: 420px;
+    width: 100%;
+    height: 360px;
     object-fit: cover;
+    object-position: center center;
     transition: transform 0.45s ease;
 }
 
 .story-card:hover img,
 .category-card:hover img {
-    transform: scale(1.03);
+    transform: scale(1.02);
 }
 
 .sport-tile {
@@ -454,8 +502,10 @@ img {
 }
 
 .sport-tile img {
-    height: 260px;
+    width: 100%;
+    height: 232px;
     object-fit: cover;
+    object-position: center center;
 }
 
 .sport-tile span {
@@ -488,6 +538,7 @@ img {
 }
 
 .product-card img {
+    width: 100%;
     height: 400px;
     object-fit: cover;
     transition: transform 0.45s ease;
@@ -1092,14 +1143,18 @@ img {
         justify-content: flex-start;
     }
 
-    .hero img {
-        height: 520px;
+    .hero-slide img {
+        height: 560px;
+        object-position: center;
     }
 
     .hero-overlay {
         left: 20px;
         right: 20px;
+        top: auto;
         bottom: 20px;
+        transform: none;
+        width: auto;
     }
 
     .story-grid,
