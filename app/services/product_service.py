@@ -164,6 +164,18 @@ def get_product_page_context(slug):
         },
     ]
 
+    confidence_points = [
+        "Most buyers use this for repeat training and daily movement.",
+        "Best match for shoppers who want responsive comfort with sharper styling.",
+        "Works especially well for everyday sessions, commuting, and long wear windows.",
+    ]
+
+    delivery_reassurance = [
+        "Free returns within 14 days",
+        product["delivery"],
+        "Verified payments and secure checkout",
+    ]
+
     return {
         "product": product,
         "sold_count": sold_count,
@@ -172,6 +184,9 @@ def get_product_page_context(slug):
         "usage_context": usage_context_map.get(product["category"], "Designed for people who want performance and everyday confidence."),
         "decision_helper": "True-to-size fit with a comfort-first shape and enough support for repeat wear.",
         "review_highlights": review_highlights,
+        "confidence_points": confidence_points,
+        "delivery_reassurance": delivery_reassurance,
+        "wishlist_signal": f"{max(28, product['reviews'] // 3)} shoppers saved this this week",
     }
 
 
@@ -198,6 +213,13 @@ def get_cart_items(cart_map):
         )
 
     return items, subtotal, total_items
+
+
+def get_wishlist_items(wishlist_slugs):
+    return [
+        product for product in products
+        if product["slug"] in wishlist_slugs
+    ]
 
 
 def get_checkout_summary(cart_map):

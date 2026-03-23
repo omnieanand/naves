@@ -46,21 +46,54 @@ img {
 }
 
 .flash-stack {
-    position: sticky;
-    top: 88px;
-    z-index: 18;
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 40;
     display: grid;
     gap: 8px;
-    margin: 12px 0 0;
+    width: min(360px, calc(100vw - 32px));
+    margin: 0;
 }
 
 .flash-message {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
     padding: 12px 16px;
     border: 1px solid var(--line);
     background: #eefaf0;
     box-shadow: var(--shadow);
     font-weight: 700;
     animation: flashSlideIn 0.28s ease;
+    border-left: 4px solid #2f8f4e;
+}
+
+.flash-close {
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+}
+
+.flash-message--success {
+    background: #eefaf0;
+}
+
+@keyframes flashSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .utility-bar,
@@ -147,6 +180,10 @@ img {
 
 .nav-tools {
     align-items: center;
+}
+
+.wishlist-link {
+    min-width: 138px;
 }
 
 .search-form input,
@@ -583,6 +620,13 @@ img {
     overflow: hidden;
 }
 
+.product-card__wishlist-form {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+}
+
 .product-card img {
     width: 100%;
     height: 400px;
@@ -603,6 +647,29 @@ img {
     font-size: 0.72rem;
     font-weight: 800;
     text-transform: uppercase;
+}
+
+.product-card__wishlist-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(17, 17, 17, 0.1);
+    background: rgba(255, 255, 255, 0.94);
+    color: var(--text);
+    font: inherit;
+    font-size: 1.15rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+.product-card__wishlist-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(17, 17, 17, 0.08);
+}
+
+.product-card__wishlist-btn.is-active {
+    background: var(--text);
+    color: white;
 }
 
 .product-card__quick-action {
@@ -735,6 +802,13 @@ img {
     width: 100%;
     height: 560px;
     object-fit: cover;
+    border: 1px solid var(--line);
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.product-gallery:hover .product-gallery__hero {
+    transform: scale(1.01);
+    box-shadow: var(--shadow);
 }
 
 .product-gallery__thumbs {
@@ -744,10 +818,28 @@ img {
     margin-top: 12px;
 }
 
+.product-gallery__thumb {
+    padding: 0;
+    border: 1px solid var(--line);
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.product-gallery__thumb.is-active {
+    border-color: var(--text);
+    box-shadow: 0 10px 20px rgba(17, 17, 17, 0.08);
+}
+
+.product-gallery__thumb:hover {
+    transform: translateY(-2px);
+}
+
 .product-gallery__thumbs img {
     width: 100%;
     height: 180px;
     object-fit: cover;
+    display: block;
 }
 
 .detail-block {
@@ -796,6 +888,107 @@ img {
     padding: 0 12px;
     border: 1px solid var(--line);
     background: var(--surface-soft);
+}
+
+.product-conviction-row,
+.wishlist-card-actions,
+.wishlist-form,
+.product-action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.product-conviction-row {
+    margin: 20px 0 12px;
+}
+
+.conviction-card {
+    flex: 1 1 220px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
+}
+
+.conviction-card strong {
+    display: block;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.conviction-card span {
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.decision-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.decision-list__item {
+    padding: 12px 14px;
+    border-left: 3px solid var(--text);
+    background: #fafafa;
+    color: var(--muted);
+}
+
+.reassurance-grid {
+    margin-top: 18px;
+}
+
+.reassurance-card {
+    background: #fbfbfb;
+}
+
+.wishlist-form {
+    margin-top: 0;
+    flex: 0 0 auto;
+}
+
+.product-action-row {
+    align-items: stretch;
+    margin-top: 18px;
+    gap: 18px;
+}
+
+.product-bag-form {
+    margin-top: 0;
+    flex: 0 0 auto;
+}
+
+.product-bag-form .btn,
+.wishlist-form .btn {
+    min-width: 190px;
+}
+
+.product-detail-wishlist-btn {
+    margin-left: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.product-detail-wishlist-btn.is-active {
+    background: #f5f5f5;
+}
+
+.product-detail-wishlist-btn__icon {
+    font-size: 1.05rem;
+    line-height: 1;
+}
+
+.product-bag-form .quantity-input {
+    min-width: 84px;
+}
+
+.wishlist-card-actions form {
+    flex: 1 1 160px;
+}
+
+.wishlist-card-actions .btn {
+    width: 100%;
 }
 
 .trust-card strong {

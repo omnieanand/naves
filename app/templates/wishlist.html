@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}NAVES | Wishlist{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="breadcrumbs"><a href="{{ url_for('home') }}">Home</a> / Wishlist</div>
+    <h1>Your Wishlist</h1>
+    <p>Save the pairs you want to revisit, compare, and bring back when you're ready.</p>
+</section>
+
+{% if wishlist_items %}
+<section class="section">
+    <div class="product-grid">
+        {% for product in wishlist_items %}
+        <article class="product-card">
+            <a class="product-card__image-link" href="{{ url_for('product_detail', slug=product.slug) }}">
+                <img src="{{ product.img }}" alt="{{ product.name }}">
+                <span class="badge">{{ product.badge }}</span>
+            </a>
+            <div class="product-card__body">
+                <div class="product-meta">
+                    <span>{{ product.category }}</span>
+                    <span>{{ product.rating }} stars</span>
+                </div>
+                <h3><a href="{{ url_for('product_detail', slug=product.slug) }}">{{ product.name }}</a></h3>
+                <p>{{ product.description }}</p>
+                <div class="wishlist-card-actions">
+                    <form action="{{ url_for('remove_from_wishlist') }}" method="post">
+                        <input type="hidden" name="slug" value="{{ product.slug }}">
+                        <input type="hidden" name="redirect_to" value="{{ url_for('wishlist') }}">
+                        <button class="btn btn-light" type="submit">Remove</button>
+                    </form>
+                    <form action="{{ url_for('add_to_cart') }}" method="post">
+                        <input type="hidden" name="slug" value="{{ product.slug }}">
+                        <input type="hidden" name="quantity" value="1">
+                        <input type="hidden" name="redirect_to" value="{{ url_for('wishlist') }}">
+                        <button class="btn btn-dark" type="submit">Add to Bag</button>
+                    </form>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% else %}
+<section class="section">
+    <div class="empty-state">
+        <h2>Nothing saved yet.</h2>
+        <p>Start saving products from a product page to build your shortlist.</p>
+        <a class="btn btn-dark" href="{{ url_for('shoes') }}">Browse Products</a>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

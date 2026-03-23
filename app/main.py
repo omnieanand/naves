@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, abort, flash, redirect, render_template, request, session, url_for
+from flask import Flask, abort, flash, jsonify, redirect, render_template, request, session, url_for
 
 from app.services.product_service import (
     NAV_ROUTE_MAP,
@@ -18,6 +18,7 @@ from app.services.product_service import (
     get_product_by_slug,
     get_related_products,
     get_site_context,
+    get_wishlist_items,
     search_products,
     sort_products,
 )
@@ -31,7 +32,10 @@ app.secret_key = os.environ.get("SECRET_KEY", "naves-dev-secret")
 def inject_site_context():
     context = get_site_context()
     cart = session.get("cart", {})
+    wishlist = session.get("wishlist", [])
     context["cart_count"] = sum(cart.values())
+    context["wishlist_count"] = len(wishlist)
+    context["wishlist_slugs"] = wishlist
     return context
 
 
@@ -108,7 +112,15 @@ def product_detail(slug):
         product=product_page["product"],
         product_page=product_page,
         related_products=get_related_products(slug),
+        is_wishlisted=slug in session.get("wishlist", []),
     )
+
+
+@app.route("/wishlist")
+def wishlist():
+    wishlist_slugs = session.get("wishlist", [])
+    items = get_wishlist_items(wishlist_slugs)
+    return render_template("wishlist.html", wishlist_items=items)
 
 
 @app.route("/cart")
@@ -212,6 +224,58 @@ def add_to_cart():
     cart_map[slug] = cart_map.get(slug, 0) + quantity
     session["cart"] = cart_map
     flash("Added to bag successfully.", "success")
+    return redirect(redirect_to)
+
+
+@app.route("/wishlist/add", methods=["POST"])
+def add_to_wishlist():
+    slug = request.form.get("slug", "")
+    redirect_to = request.form.get("redirect_to") or request.referrer or url_for("wishlist")
+    product = get_product_by_slug(slug)
+    if not product:
+        abort(404)
+
+    wishlist_slugs = session.get("wishlist", [])
+    added = False
+    if slug not in wishlist_slugs:
+        wishlist_slugs.append(slug)
+        session["wishlist"] = wishlist_slugs
+        added = True
+        flash("Saved to wishlist.", "success")
+    else:
+        flash("Already in your wishlist.", "success")
+
+    if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+        return jsonify(
+            {
+                "ok": True,
+                "wishlist_count": len(session.get("wishlist", [])),
+                "is_wishlisted": True,
+                "message": "Saved to wishlist." if added else "Already in your wishlist.",
+            }
+        )
+    return redirect(redirect_to)
+
+
+@app.route("/wishlist/remove", methods=["POST"])
+def remove_from_wishlist():
+    slug = request.form.get("slug", "")
+    redirect_to = request.form.get("redirect_to") or request.referrer or url_for("wishlist")
+    wishlist_slugs = session.get("wishlist", [])
+    if slug in wishlist_slugs:
+        wishlist_slugs = [item for item in wishlist_slugs if item != slug]
+        session["wishlist"] = wishlist_slugs
+        flash("Removed from wishlist.", "success")
+
+    if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+        return jsonify(
+            {
+                "ok": True,
+                "wishlist_count": len(session.get("wishlist", [])),
+                "is_wishlisted": False,
+                "message": "Removed from wishlist.",
+            }
+        )
     return redirect(redirect_to)
 
 

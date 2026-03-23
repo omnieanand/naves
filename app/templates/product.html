@@ -14,10 +14,12 @@
 
 <section class="product-detail-page">
     <div class="product-gallery">
-        <img class="product-gallery__hero" src="{{ product.img }}" alt="{{ product.name }}">
+        <img class="product-gallery__hero" src="{{ product.img }}" alt="{{ product.name }}" data-product-hero>
         <div class="product-gallery__thumbs">
             {% for image in product.gallery %}
-            <img src="{{ image }}" alt="{{ product.name }} view {{ loop.index }}">
+            <button class="product-gallery__thumb{% if loop.first %} is-active{% endif %}" type="button" data-gallery-thumb="{{ image }}">
+                <img src="{{ image }}" alt="{{ product.name }} view {{ loop.index }}">
+            </button>
             {% endfor %}
         </div>
     </div>
@@ -34,6 +36,16 @@
             {% if product.original_price_label %}
                 <span class="old-price">{{ product.original_price_label }}</span>
             {% endif %}
+        </div>
+        <div class="product-conviction-row">
+            <div class="conviction-card">
+                <strong>{{ product_page.wishlist_signal }}</strong>
+                <span>Saved by shoppers comparing performance picks.</span>
+            </div>
+            <div class="conviction-card">
+                <strong>Best for {{ product.category|lower }} use</strong>
+                <span>Confidence-focused design for repeat wear and sharper everyday movement.</span>
+            </div>
         </div>
         <div class="meta-row">
             <span>{{ product.category }}</span>
@@ -81,6 +93,12 @@
             <p>Customers call out the comfort, support, and confidence-inspiring fit for daily training and city wear.</p>
         </div>
 
+        <div class="decision-list">
+            {% for point in product_page.confidence_points %}
+            <div class="decision-list__item">{{ point }}</div>
+            {% endfor %}
+        </div>
+
         <div class="detail-grid">
             <div class="detail-card">
                 <h4>Size Guide</h4>
@@ -92,15 +110,38 @@
             </div>
         </div>
 
+        <div class="detail-grid reassurance-grid">
+            {% for item in product_page.delivery_reassurance %}
+            <div class="detail-card reassurance-card">
+                <h4>{{ item }}</h4>
+                <p>Built to remove hesitation and make checkout feel easier.</p>
+            </div>
+            {% endfor %}
+        </div>
+
         <p class="fit-note">{{ product.fit_note }}</p>
 
-        <form class="cta-row" action="{{ url_for('add_to_cart') }}" method="post">
-            <input type="hidden" name="slug" value="{{ product.slug }}">
-            <input type="hidden" name="redirect_to" value="{{ request.path }}">
-            <input class="quantity-input" type="number" name="quantity" min="1" value="1">
-            <button class="btn btn-dark" type="submit">Add to Bag</button>
-            <a class="btn btn-light" href="{{ url_for('home') }}">Save to Wishlist</a>
-        </form>
+        <div class="product-action-row">
+            <form class="cta-row product-bag-form" action="{{ url_for('add_to_cart') }}" method="post">
+                <input type="hidden" name="slug" value="{{ product.slug }}">
+                <input type="hidden" name="redirect_to" value="{{ request.path }}">
+                <input class="quantity-input" type="number" name="quantity" min="1" value="1">
+                <button class="btn btn-dark" type="submit">Add to Bag</button>
+            </form>
+            {% if is_wishlisted %}
+            <form class="wishlist-form" action="{{ url_for('remove_from_wishlist') }}" method="post" data-async-wishlist>
+                <input type="hidden" name="slug" value="{{ product.slug }}">
+                <input type="hidden" name="redirect_to" value="{{ request.path }}">
+                <button class="btn btn-light product-detail-wishlist-btn is-active" type="submit" data-save-label="Save to Wishlist" data-remove-label="Remove from Wishlist" aria-label="Remove {{ product.name }} from wishlist"><span class="product-detail-wishlist-btn__icon" aria-hidden="true">♥</span><span class="product-detail-wishlist-btn__text">Remove from Wishlist</span></button>
+            </form>
+            {% else %}
+            <form class="wishlist-form" action="{{ url_for('add_to_wishlist') }}" method="post" data-async-wishlist>
+                <input type="hidden" name="slug" value="{{ product.slug }}">
+                <input type="hidden" name="redirect_to" value="{{ request.path }}">
+                <button class="btn btn-light product-detail-wishlist-btn" type="submit" data-save-label="Save to Wishlist" data-remove-label="Remove from Wishlist" aria-label="Save {{ product.name }} to wishlist"><span class="product-detail-wishlist-btn__icon" aria-hidden="true">♡</span><span class="product-detail-wishlist-btn__text">Save to Wishlist</span></button>
+            </form>
+            {% endif %}
+        </div>
     </div>
 </section>
 
@@ -130,4 +171,23 @@
         {% endfor %}
     </div>
 </section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    (() => {
+        const heroImage = document.querySelector("[data-product-hero]");
+        const thumbs = Array.from(document.querySelectorAll("[data-gallery-thumb]"));
+        if (!heroImage || !thumbs.length) return;
+
+        thumbs.forEach((thumb) => {
+            thumb.addEventListener("click", () => {
+                const nextSrc = thumb.getAttribute("data-gallery-thumb");
+                heroImage.src = nextSrc;
+                thumbs.forEach((item) => item.classList.remove("is-active"));
+                thumb.classList.add("is-active");
+            });
+        });
+    })();
+</script>
 {% endblock %}

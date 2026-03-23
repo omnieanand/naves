@@ -2,6 +2,19 @@
     <a class="product-card__image-link" href="{{ url_for('product_detail', slug=product.slug) }}">
         <img src="{{ product.img }}" alt="{{ product.name }}">
         <span class="badge">{{ product.badge }}</span>
+        {% if product.slug in wishlist_slugs %}
+        <form class="product-card__wishlist-form" action="{{ url_for('remove_from_wishlist') }}" method="post" data-async-wishlist>
+            <input type="hidden" name="slug" value="{{ product.slug }}">
+            <input type="hidden" name="redirect_to" value="{{ request.path }}">
+            <button class="product-card__wishlist-btn is-active" type="submit" aria-label="Remove {{ product.name }} from wishlist">♥</button>
+        </form>
+        {% else %}
+        <form class="product-card__wishlist-form" action="{{ url_for('add_to_wishlist') }}" method="post" data-async-wishlist>
+            <input type="hidden" name="slug" value="{{ product.slug }}">
+            <input type="hidden" name="redirect_to" value="{{ request.path }}">
+            <button class="product-card__wishlist-btn" type="submit" aria-label="Save {{ product.name }} to wishlist">♡</button>
+        </form>
+        {% endif %}
         <span class="product-card__quick-action">Quick View</span>
     </a>
     <div class="product-card__body">

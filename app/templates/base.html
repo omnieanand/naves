@@ -29,6 +29,7 @@
                         <input type="search" name="q" placeholder="Search" value="{{ search_query|default('') }}">
                         <button type="submit">Search</button>
                     </form>
+                    <a class="cart-link wishlist-link" href="{{ url_for('wishlist') }}" id="wishlist-link"><span class="cart-icon" aria-hidden="true">♡</span> Wishlist (<span id="wishlist-count">{{ wishlist_count }}</span>)</a>
                     <a class="cart-link" href="{{ url_for('cart') }}"><span class="cart-icon" aria-hidden="true">🛒</span> Bag ({{ cart_count }})</a>
                 </div>
             </div>
@@ -38,7 +39,10 @@
             {% if messages %}
             <section class="flash-stack">
                 {% for category, message in messages %}
-                    <div class="flash-message flash-message--{{ category }}">{{ message }}</div>
+                    <div class="flash-message flash-message--{{ category }}">
+                        <span>{{ message }}</span>
+                        <button class="flash-close" type="button" aria-label="Dismiss message">×</button>
+                    </div>
                 {% endfor %}
             </section>
             {% endif %}
@@ -87,6 +91,104 @@
         };
         window.addEventListener("scroll", toggleHeaderShadow, { passive: true });
         toggleHeaderShadow();
+
+        const flashStack = document.querySelector(".flash-stack");
+        const showInlineFlash = (message) => {
+            if (!message) return;
+            const stack = flashStack || (() => {
+                const section = document.createElement("section");
+                section.className = "flash-stack";
+                const main = document.querySelector("main");
+                if (main) main.parentNode.insertBefore(section, main);
+                return section;
+            })();
+
+            const item = document.createElement("div");
+            item.className = "flash-message flash-message--success";
+            item.innerHTML = `<span>${message}</span><button class="flash-close" type="button" aria-label="Dismiss message">×</button>`;
+            stack.appendChild(item);
+            window.setTimeout(() => {
+                item.remove();
+                if (!stack.children.length && stack !== flashStack) {
+                    stack.remove();
+                }
+            }, 4200);
+        };
+
+        document.addEventListener("click", (event) => {
+            const button = event.target.closest(".flash-close");
+            if (!button) return;
+            const message = button.closest(".flash-message");
+            if (message) message.remove();
+        });
+
+        document.addEventListener("submit", async (event) => {
+            const form = event.target;
+            if (!(form instanceof HTMLFormElement) || !form.hasAttribute("data-async-wishlist")) return;
+            event.preventDefault();
+
+            const button = form.querySelector("button");
+            const formData = new FormData(form);
+
+            try {
+                if (button) button.disabled = true;
+                const response = await fetch(form.action, {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                    },
+                });
+                if (!response.ok) throw new Error("Wishlist request failed");
+                const data = await response.json();
+
+                const count = document.getElementById("wishlist-count");
+                if (count) count.textContent = String(data.wishlist_count ?? 0);
+
+                const cardButton = form.querySelector(".product-card__wishlist-btn");
+                if (cardButton) {
+                    cardButton.textContent = data.is_wishlisted ? "♥" : "♡";
+                    cardButton.classList.toggle("is-active", Boolean(data.is_wishlisted));
+                    cardButton.setAttribute(
+                        "aria-label",
+                        data.is_wishlisted
+                            ? cardButton.getAttribute("aria-label")?.replace("Save", "Remove")
+                            : cardButton.getAttribute("aria-label")?.replace("Remove", "Save")
+                    );
+                    form.action = data.is_wishlisted ? "{{ url_for('remove_from_wishlist') }}" : "{{ url_for('add_to_wishlist') }}";
+                }
+
+                const detailButton = form.querySelector(".product-detail-wishlist-btn");
+                if (detailButton) {
+                    const icon = detailButton.querySelector(".product-detail-wishlist-btn__icon");
+                    const text = detailButton.querySelector(".product-detail-wishlist-btn__text");
+                    const saveLabel = detailButton.getAttribute("data-save-label") || "Save to Wishlist";
+                    const removeLabel = detailButton.getAttribute("data-remove-label") || "Remove from Wishlist";
+                    detailButton.classList.toggle("is-active", Boolean(data.is_wishlisted));
+                    if (icon) icon.textContent = data.is_wishlisted ? "♥" : "♡";
+                    if (text) text.textContent = data.is_wishlisted ? removeLabel : saveLabel;
+                    detailButton.setAttribute(
+                        "aria-label",
+                        data.is_wishlisted ? removeLabel : saveLabel
+                    );
+                    form.action = data.is_wishlisted ? "{{ url_for('remove_from_wishlist') }}" : "{{ url_for('add_to_wishlist') }}";
+                }
+
+                if (window.location.pathname === "{{ url_for('wishlist') }}" && !data.is_wishlisted) {
+                    const card = form.closest(".product-card");
+                    if (card) card.remove();
+                    if (!document.querySelector(".product-grid .product-card")) {
+                        window.location.reload();
+                    }
+                }
+
+                showInlineFlash(data.message);
+            } catch (error) {
+                window.location.reload();
+            } finally {
+                if (button) button.disabled = false;
+            }
+        });
     </script>
     {% block scripts %}{% endblock %}
 </body>
