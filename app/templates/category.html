@@ -10,23 +10,87 @@
 </section>
 
 <section class="section">
-    <form class="toolbar" method="get">
+    <form class="filters-panel" method="get">
         {% if search_query %}
             <input type="hidden" name="q" value="{{ search_query }}">
         {% endif %}
-        <label for="sort">Sort By</label>
-        <select id="sort" name="sort" onchange="this.form.submit()">
-            {% for option in filter_options.sort_options %}
-                <option value="{{ option }}" {% if page.sort_by == option %}selected{% endif %}>{{ option }}</option>
-            {% endfor %}
-        </select>
+
+        <div class="filters-grid">
+            <label>
+                Category
+                <select name="category">
+                    <option value="">All</option>
+                    {% for option in filter_options.category_options %}
+                        <option value="{{ option }}" {% if selected_filters.category == option %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>
+                Badge
+                <select name="badge">
+                    <option value="">All</option>
+                    {% for option in filter_options.badge_options %}
+                        <option value="{{ option }}" {% if selected_filters.badge == option %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>
+                Audience
+                <select name="audience">
+                    <option value="">All</option>
+                    {% for option in filter_options.audience_options %}
+                        <option value="{{ option }}" {% if selected_filters.audience == option %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>
+                Price
+                <select name="price">
+                    {% for label, value in filter_options.price_options %}
+                        <option value="{{ value }}" {% if selected_filters.price == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>
+                Sort By
+                <select name="sort">
+                    {% for option in filter_options.sort_options %}
+                        <option value="{{ option }}" {% if page.sort_by == option %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <div class="filters-actions">
+                <button class="btn btn-dark" type="submit">Apply Filters</button>
+                {% if search_query %}
+                    <a class="btn btn-light" href="{{ url_for('search', q=search_query) }}">Clear Filters</a>
+                {% elif page.slug %}
+                    <a class="btn btn-light" href="/{{ page.slug | replace('_', '-') }}">Clear Filters</a>
+                {% endif %}
+            </div>
+        </div>
     </form>
+
+    <div class="results-toolbar">
+        <strong>{{ page.result_count or page.products|length }} products</strong>
+        {% if page.active_filters %}
+        <div class="active-filters">
+            {% for filter in page.active_filters %}
+                <span class="filter-chip">{{ filter.label }}: {{ filter.value }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
 
     <div class="product-grid">
         {% for product in page.products %}
             {% include "partials/product_card.html" %}
         {% else %}
-            <p class="empty-state">No products found for this section.</p>
+            <p class="empty-state">No products found for this filter combination.</p>
         {% endfor %}
     </div>
 </section>

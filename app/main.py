@@ -4,7 +4,9 @@ from flask import Flask, abort, redirect, render_template, request, session, url
 
 from app.services.product_service import (
     NAV_ROUTE_MAP,
+    apply_filters,
     build_order_invoice,
+    build_active_filters,
     get_all_products,
     get_cart_items,
     get_checkout_summary,
@@ -42,7 +44,9 @@ def home():
 def search():
     query = request.args.get("q", "").strip()
     sort_by = request.args.get("sort", "Featured")
-    results = sort_products(search_products(query), sort_by)
+    filters = _get_filters_from_request()
+    results = apply_filters(search_products(query), filters)
+    results = sort_products(results, sort_by)
     page = {
         "title": "Search Results",
         "subtitle": f"Results for '{query}'" if query else "Browse all NAVES products.",
@@ -50,12 +54,15 @@ def search():
         "sort_by": sort_by,
         "selection": "Search",
         "slug": "search",
+        "result_count": len(results),
+        "active_filters": build_active_filters(filters),
     }
     return render_template(
         "category.html",
         page=page,
         filter_options=get_filter_options(),
         search_query=query,
+        selected_filters=filters,
     )
 
 
@@ -229,13 +236,27 @@ def remove_from_cart():
 
 def _render_collection(selection):
     sort_by = request.args.get("sort", "Featured")
+    filters = _get_filters_from_request()
     page = get_collection_page(selection, sort_by)
+    page["products"] = sort_products(apply_filters(page["products"], filters), sort_by)
+    page["result_count"] = len(page["products"])
+    page["active_filters"] = build_active_filters(filters)
     return render_template(
         "category.html",
         page=page,
         filter_options=get_filter_options(),
         search_query="",
+        selected_filters=filters,
     )
+
+
+def _get_filters_from_request():
+    return {
+        "category": request.args.get("category", ""),
+        "badge": request.args.get("badge", ""),
+        "audience": request.args.get("audience", ""),
+        "price": request.args.get("price", ""),
+    }
 
 
 if __name__ == "__main__":

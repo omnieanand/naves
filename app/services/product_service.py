@@ -227,6 +227,15 @@ def get_collection_page(selection, sort_by="Featured"):
 
 def get_filter_options():
     return {
+        "category_options": sorted({product["category"] for product in products}),
+        "badge_options": sorted({product["badge"] for product in products}),
+        "audience_options": ["Men", "Women", "Kids"],
+        "price_options": [
+            ("All Prices", ""),
+            ("Under ₹10,000", "under-10000"),
+            ("₹10,000 - ₹12,999", "10000-12999"),
+            ("₹13,000 and above", "13000-plus"),
+        ],
         "sort_options": [
             "Featured",
             "Newest",
@@ -235,6 +244,56 @@ def get_filter_options():
             "Price: High to Low",
         ]
     }
+
+
+def apply_filters(items, filters):
+    filtered = list(items)
+
+    category = filters.get("category", "").strip()
+    badge = filters.get("badge", "").strip()
+    audience = filters.get("audience", "").strip()
+    price = filters.get("price", "").strip()
+
+    if category:
+        filtered = [
+            product for product in filtered
+            if product["category"] == category
+        ]
+
+    if badge:
+        filtered = [
+            product for product in filtered
+            if product["badge"] == badge
+        ]
+
+    if audience:
+        filtered = [
+            product for product in filtered
+            if audience in product["audience"]
+        ]
+
+    if price == "under-10000":
+        filtered = [product for product in filtered if product["price"] < 10000]
+    elif price == "10000-12999":
+        filtered = [product for product in filtered if 10000 <= product["price"] <= 12999]
+    elif price == "13000-plus":
+        filtered = [product for product in filtered if product["price"] >= 13000]
+
+    return filtered
+
+
+def build_active_filters(filters):
+    active = []
+    for key, label in (
+        ("category", "Category"),
+        ("badge", "Badge"),
+        ("audience", "Audience"),
+        ("price", "Price"),
+    ):
+        value = filters.get(key, "").strip()
+        if value:
+            active.append({"label": label, "value": value})
+    return active
 
 
 def sort_products(items, sort_by):
