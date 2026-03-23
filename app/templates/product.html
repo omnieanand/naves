@@ -14,10 +14,13 @@
 
 <section class="product-detail-page">
     <div class="product-gallery">
-        <img class="product-gallery__hero" src="{{ product.img }}" alt="{{ product.name }}" data-product-hero>
+        <button class="product-gallery__hero-wrap" type="button" data-lightbox-image="{{ product.img }}" data-lightbox-alt="{{ product.name }}">
+            <img class="product-gallery__hero" src="{{ product.img }}" alt="{{ product.name }}" data-product-hero>
+            <span class="product-gallery__zoom-hint">Tap or click to zoom</span>
+        </button>
         <div class="product-gallery__thumbs">
             {% for image in product.gallery %}
-            <button class="product-gallery__thumb{% if loop.first %} is-active{% endif %}" type="button" data-gallery-thumb="{{ image }}">
+            <button class="product-gallery__thumb{% if loop.first %} is-active{% endif %}" type="button" data-gallery-thumb="{{ image }}" data-lightbox-image="{{ image }}" data-lightbox-alt="{{ product.name }} view {{ loop.index }}">
                 <img src="{{ image }}" alt="{{ product.name }} view {{ loop.index }}">
             </button>
             {% endfor %}
@@ -142,6 +145,7 @@
             </form>
             {% endif %}
         </div>
+        <p class="micro-note">Wishlist saves instantly and stays ready for your next session.</p>
     </div>
 </section>
 

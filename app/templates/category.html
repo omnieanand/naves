@@ -90,7 +90,11 @@
         {% for product in page.products %}
             {% include "partials/product_card.html" %}
         {% else %}
-            <p class="empty-state">No products found for this filter combination.</p>
+            <div class="empty-state">
+                <span class="empty-state__eyebrow">No Matches</span>
+                <h2>No products found for this filter combination.</h2>
+                <p>Try clearing one or two filters to widen the result set.</p>
+            </div>
         {% endfor %}
     </div>
 </section>

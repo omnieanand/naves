@@ -25,8 +25,9 @@
                 </nav>
 
                 <div class="nav-tools">
-                    <form class="search-form" action="{{ url_for('search') }}" method="get">
-                        <input type="search" name="q" placeholder="Search" value="{{ search_query|default('') }}">
+                    <form class="search-form" action="{{ url_for('search') }}" method="get" role="search" aria-label="Site search">
+                        <label class="sr-only" for="site-search">Search products</label>
+                        <input id="site-search" type="search" name="q" placeholder="Search" value="{{ search_query|default('') }}">
                         <button type="submit">Search</button>
                     </form>
                     <a class="cart-link wishlist-link" href="{{ url_for('wishlist') }}" id="wishlist-link"><span class="cart-icon" aria-hidden="true">♡</span> Wishlist (<span id="wishlist-count">{{ wishlist_count }}</span>)</a>
@@ -82,6 +83,10 @@
             </div>
             <div class="footer-bar">© 2026 NAVES. All rights reserved.</div>
         </footer>
+    </div>
+    <div class="image-lightbox" id="image-lightbox" hidden aria-hidden="true">
+        <button class="image-lightbox__close" type="button" aria-label="Close image preview">×</button>
+        <img class="image-lightbox__img" src="" alt="">
     </div>
     <script>
         const siteHeader = document.getElementById("site-header");
@@ -187,6 +192,40 @@
                 window.location.reload();
             } finally {
                 if (button) button.disabled = false;
+            }
+        });
+
+        const lightbox = document.getElementById("image-lightbox");
+        const lightboxImage = lightbox?.querySelector(".image-lightbox__img");
+        const closeLightbox = () => {
+            if (!lightbox || !lightboxImage) return;
+            lightbox.hidden = true;
+            lightbox.setAttribute("aria-hidden", "true");
+            lightboxImage.src = "";
+            lightboxImage.alt = "";
+        };
+
+        document.addEventListener("click", (event) => {
+            const zoomTrigger = event.target.closest("[data-lightbox-image]");
+            if (zoomTrigger && lightbox && lightboxImage) {
+                lightbox.hidden = false;
+                lightbox.setAttribute("aria-hidden", "false");
+                lightboxImage.src = zoomTrigger.getAttribute("data-lightbox-image") || "";
+                lightboxImage.alt = zoomTrigger.getAttribute("data-lightbox-alt") || "Product image preview";
+                return;
+            }
+
+            if (
+                event.target.closest(".image-lightbox__close") ||
+                (event.target === lightbox)
+            ) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closeLightbox();
             }
         });
     </script>

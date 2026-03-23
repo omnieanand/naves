@@ -7,6 +7,10 @@
     <div class="breadcrumbs"><a href="{{ url_for('home') }}">Home</a> / Wishlist</div>
     <h1>Your Wishlist</h1>
     <p>Save the pairs you want to revisit, compare, and bring back when you're ready.</p>
+    <div class="hero-identity-row product-identity-row">
+        <span class="identity-pill">{{ wishlist_items|length }} item{% if wishlist_items|length != 1 %}s{% endif %} saved</span>
+        <span class="identity-pill">Shortlist your top picks before checkout</span>
+    </div>
 </section>
 
 {% if wishlist_items %}
@@ -46,6 +50,7 @@
 {% else %}
 <section class="section">
     <div class="empty-state">
+        <span class="empty-state__eyebrow">Wishlist</span>
         <h2>Nothing saved yet.</h2>
         <p>Start saving products from a product page to build your shortlist.</p>
         <a class="btn btn-dark" href="{{ url_for('shoes') }}">Browse Products</a>
