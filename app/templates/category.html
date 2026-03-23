@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}NAVES | {{ page.title }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="breadcrumbs"><a href="{{ url_for('home') }}">Home</a> / {{ page.title }}</div>
+    <h1>{{ page.title }}</h1>
+    <p>{{ page.subtitle }}</p>
+</section>
+
+<section class="section">
+    <form class="toolbar" method="get">
+        {% if search_query %}
+            <input type="hidden" name="q" value="{{ search_query }}">
+        {% endif %}
+        <label for="sort">Sort By</label>
+        <select id="sort" name="sort" onchange="this.form.submit()">
+            {% for option in filter_options.sort_options %}
+                <option value="{{ option }}" {% if page.sort_by == option %}selected{% endif %}>{{ option }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <div class="product-grid">
+        {% for product in page.products %}
+            {% include "partials/product_card.html" %}
+        {% else %}
+            <p class="empty-state">No products found for this section.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

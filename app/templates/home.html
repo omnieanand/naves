@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}NAVES | Home{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <img src="{{ hero.image }}" alt="{{ hero.title }}">
+    <div class="hero-overlay">
+        <span class="kicker">{{ hero.kicker }}</span>
+        <h1>{{ hero.title }}</h1>
+        <p>{{ hero.copy }}</p>
+        <div class="cta-row">
+            <a class="btn btn-light" href="{{ url_for('men') }}">Shop Men</a>
+            <a class="btn btn-light" href="{{ url_for('women') }}">Shop Women</a>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title">What's Hot</h2>
+    <div class="story-grid">
+        {% for story in hot_stories %}
+        <article class="story-card">
+            <img src="{{ story.img }}" alt="{{ story.title }}">
+            <div class="story-card__body">
+                <h3>{{ story.title }}</h3>
+                <p>{{ story.copy }}</p>
+                <a href="{{ url_for('shoes') }}">{{ story.cta }}</a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title">Your Style. Your Sneakers.</h2>
+    <div class="shortcut-row">
+        {% for item in style_shortcuts %}
+            <a href="{{ url_for('sports_lifestyle') }}">{{ item }}</a>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <span class="kicker">Categories</span>
+        <h2>Find your lane</h2>
+        <p>Discover collections tailored for performance, sport, and everyday rotation.</p>
+    </div>
+    <div class="category-grid">
+        {% for category in categories %}
+        <article class="category-card">
+            <img src="{{ category.img }}" alt="{{ category.name }}">
+            <div class="category-card__body">
+                <span>Shop now</span>
+                <h3>{{ category.name }}</h3>
+                <p>{{ category.caption }}</p>
+                <a href="{{ url_for('shoes') }}">Explore</a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <span class="kicker">Sports & Lifestyle</span>
+        <h2>Select your sport, find your gear, and get in the game.</h2>
+    </div>
+    <div class="sport-grid">
+        {% for item in sport_tiles %}
+        <article class="sport-tile">
+            <img src="{{ item.img }}" alt="{{ item.name }}">
+            <span>{{ item.name }}</span>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section">
+    <div class="link-grid">
+        {% for group in link_groups %}
+        <div class="link-group">
+            <h3>{{ group.title }}</h3>
+            {% for item in group["items"] %}
+                <a href="{{ url_for('shoes') }}">{{ item }}</a>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <span class="kicker">Featured</span>
+        <h2>Best-selling picks from the latest drop</h2>
+        <p>Click through to proper product pages and browse the collection like a real store.</p>
+    </div>
+    <div class="product-grid">
+        {% for product in featured_products %}
+            {% include "partials/product_card.html" %}
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section" id="trust">
+    <div class="section-heading">
+        <span class="kicker">Why Buy Here</span>
+        <h2>Trust signals should be visible before the customer has questions.</h2>
+    </div>
+    <div class="trust-grid">
+        {% for item in trust_signals %}
+        <div class="trust-card">
+            <strong>{{ item }}</strong>
+            <p>Visible confidence cues make the store feel safer and more professional.</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="signup-banner" id="signup">
+    <div>
+        <h2>Join NAVES and get 10% off</h2>
+        <p>Sign up for free to unlock launch alerts, early access, and member-only offers.</p>
+    </div>
+    <a class="btn btn-dark" href="{{ url_for('home') }}">Sign Up For Free</a>
+</section>
+{% endblock %}

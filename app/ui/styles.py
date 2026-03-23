@@ -273,6 +273,55 @@ body {
     max-width: 760px;
 }
 
+.page-hero {
+    margin: 28px 0 18px;
+    padding: 28px;
+    border: 1px solid var(--line);
+    background: #ffffff;
+    box-shadow: 0 10px 24px rgba(17, 17, 17, 0.03);
+}
+
+.page-hero__crumbs {
+    margin-bottom: 12px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.page-hero h1 {
+    margin: 0;
+    font-size: clamp(2.2rem, 4vw, 3.8rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+}
+
+.page-hero p {
+    margin: 12px 0 0;
+    max-width: 720px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.page-actions {
+    gap: 12px;
+    margin: 0 0 16px;
+}
+
+.page-action-button {
+    min-height: 44px !important;
+    padding: 0 16px !important;
+    border: 1px solid var(--text) !important;
+    border-radius: 0 !important;
+    background: #ffffff !important;
+    color: var(--text) !important;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
 .section-title {
     font-size: 1.8rem;
     margin-bottom: 18px;

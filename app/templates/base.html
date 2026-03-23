@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}NAVES{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+</head>
+<body>
+    <div class="site-shell">
+        <header class="site-header">
+            <div class="utility-bar">
+                {% for item in utility_links %}
+                    <a href="{{ url_for('home') }}#footer">{{ item }}</a>
+                {% endfor %}
+            </div>
+
+            <div class="nav-bar">
+                <a class="brand" href="{{ url_for('home') }}">NAVES</a>
+
+                <nav class="main-nav">
+                    {% for item in primary_nav %}
+                        <a href="/{{ nav_route_map[item] | replace('_', '-') }}">{{ item }}</a>
+                    {% endfor %}
+                </nav>
+
+                <form class="search-form" action="{{ url_for('search') }}" method="get">
+                    <input type="search" name="q" placeholder="Search" value="{{ search_query|default('') }}">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+        </header>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="site-footer" id="footer">
+            <div class="footer-grid">
+                <div>
+                    <h4>Products</h4>
+                    <a href="{{ url_for('shoes') }}">Footwear</a>
+                    <a href="{{ url_for('men') }}">Men</a>
+                    <a href="{{ url_for('women') }}">Women</a>
+                    <a href="{{ url_for('kids') }}">Kids</a>
+                </div>
+                <div>
+                    <h4>Sports</h4>
+                    <a href="{{ url_for('sports_lifestyle') }}">Sports & Lifestyle</a>
+                    <a href="{{ url_for('shoes') }}">Running</a>
+                    <a href="{{ url_for('sports_lifestyle') }}">Football</a>
+                    <a href="{{ url_for('outlet') }}">Outlet</a>
+                </div>
+                <div>
+                    <h4>Company</h4>
+                    <a href="{{ url_for('home') }}#signup">Membership</a>
+                    <a href="{{ url_for('home') }}#trust">Shipping & Returns</a>
+                    <a href="{{ url_for('home') }}">Campaigns</a>
+                    <a href="{{ url_for('search') }}">Search</a>
+                </div>
+                <div>
+                    <h4>About NAVES</h4>
+                    <p>Performance, streetwear, and sport-driven essentials built into a proper multi-page storefront.</p>
+                </div>
+            </div>
+            <div class="footer-bar">© 2026 NAVES. All rights reserved.</div>
+        </footer>
+    </div>
+</body>
+</html>

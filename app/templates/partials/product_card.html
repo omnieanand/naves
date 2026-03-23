@@ -1,0 +1,23 @@
+<article class="product-card">
+    <a class="product-card__image-link" href="{{ url_for('product_detail', slug=product.slug) }}">
+        <img src="{{ product.img }}" alt="{{ product.name }}">
+        <span class="badge">{{ product.badge }}</span>
+    </a>
+    <div class="product-card__body">
+        <div class="product-meta">
+            <span>{{ product.category }}</span>
+            <span>{{ product.rating }} stars</span>
+        </div>
+        <h3><a href="{{ url_for('product_detail', slug=product.slug) }}">{{ product.name }}</a></h3>
+        <p>{{ product.description }}</p>
+        <div class="product-footer">
+            <div>
+                <strong>{{ product.price_label }}</strong>
+                {% if product.original_price_label %}
+                    <span class="old-price">{{ product.original_price_label }}</span>
+                {% endif %}
+            </div>
+            <a class="btn btn-light" href="{{ url_for('product_detail', slug=product.slug) }}">View Product</a>
+        </div>
+    </div>
+</article>

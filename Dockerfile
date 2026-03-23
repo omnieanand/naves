@@ -14,4 +14,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 7860
 
 # Run app
-CMD ["python", "app/main.py"]
+CMD ["python", "-m", "app.main"]

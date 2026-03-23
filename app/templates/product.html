@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}NAVES | {{ product.name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="breadcrumbs"><a href="{{ url_for('home') }}">Home</a> / <a href="{{ url_for('shoes') }}">Products</a> / {{ product.name }}</div>
+    <h1>{{ product.name }}</h1>
+    <p>{{ product.description }}</p>
+</section>
+
+<section class="product-detail-page">
+    <div class="product-gallery">
+        <img class="product-gallery__hero" src="{{ product.img }}" alt="{{ product.name }}">
+        <div class="product-gallery__thumbs">
+            {% for image in product.gallery %}
+            <img src="{{ image }}" alt="{{ product.name }} view {{ loop.index }}">
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="product-summary">
+        <span class="kicker">{{ product.badge }}</span>
+        <div class="price-row">
+            <strong>{{ product.price_label }}</strong>
+            {% if product.original_price_label %}
+                <span class="old-price">{{ product.original_price_label }}</span>
+            {% endif %}
+        </div>
+        <div class="meta-row">
+            <span>{{ product.category }}</span>
+            <span>{{ product.stock_status }}</span>
+            <span>{{ product.delivery }}</span>
+        </div>
+
+        <div class="detail-block">
+            <h4>Available Colours</h4>
+            <div class="chip-row">
+                {% for color in product.colors %}
+                    <span class="chip">{{ color }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="detail-block">
+            <h4>Sizes</h4>
+            <div class="chip-row">
+                {% for size in product.sizes %}
+                    <span class="chip">{{ size }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="detail-block">
+            <h4>Why You'll Like It</h4>
+            <ul>
+                {% for feature in product.features %}
+                    <li>{{ feature }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <p class="fit-note">{{ product.fit_note }}</p>
+
+        <div class="cta-row">
+            <a class="btn btn-dark" href="{{ url_for('home') }}">Add to Bag</a>
+            <a class="btn btn-light" href="{{ url_for('home') }}">Save to Wishlist</a>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <span class="kicker">You May Also Like</span>
+        <h2>Related products</h2>
+    </div>
+    <div class="product-grid">
+        {% for product in related_products %}
+            {% include "partials/product_card.html" %}
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
