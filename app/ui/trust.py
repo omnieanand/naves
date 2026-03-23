@@ -12,7 +12,7 @@ def render_trust_signals(items):
         """)
 
     gr.HTML(f"""
-    <section class="section-block">
+    <section class="section-block" id="trust">
         <div class="section-heading">
             <span class="eyebrow">Why Buy Here</span>
             <h2>Trust signals should be visible before the customer has questions.</h2>

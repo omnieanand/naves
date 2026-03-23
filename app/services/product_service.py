@@ -160,3 +160,42 @@ def get_filtered_gallery(category, badge, sort_by):
 
 def reset_filters():
     return "All", "All", "Featured", [_format_gallery_item(product) for product in products]
+
+
+def get_nav_gallery(selection):
+    if selection == "NAVES":
+        items = products
+        title = "All NAVES Products"
+        subtitle = "Browse the full NAVES catalog across running, lifestyle, football, and streetwear."
+    elif selection == "Outlet":
+        items = [product for product in products if product["is_outlet"]]
+        title = "Outlet Picks"
+        subtitle = "Reduced-price styles and value-driven picks from the NAVES lineup."
+    elif selection in {"Men", "Women", "Kids"}:
+        items = [
+            product for product in products
+            if selection in product["audience"]
+        ]
+        title = f"{selection}'s Collection" if selection != "Kids" else "Kids Collection"
+        subtitle = f"Shop NAVES styles curated for {selection.lower()}."
+    else:
+        items = [
+            product for product in products
+            if selection in product["nav_tags"]
+        ]
+        title = selection
+        subtitle = f"Explore NAVES products grouped under {selection.lower()}."
+
+    if not items:
+        items = products
+        title = "All NAVES Products"
+        subtitle = "Browse the full NAVES catalog across running, lifestyle, football, and streetwear."
+
+    heading = f"""
+    <div class="catalog-heading">
+        <span class="eyebrow">Top Navigation</span>
+        <h2>{title}</h2>
+        <p>{subtitle}</p>
+    </div>
+    """
+    return heading, [_format_gallery_item(product) for product in items]

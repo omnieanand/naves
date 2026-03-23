@@ -16,7 +16,7 @@ def render_categories(categories):
         """)
 
     gr.HTML(f"""
-    <section class="section-block">
+    <section class="section-block" id="categories">
         <div class="section-heading">
             <span class="eyebrow">Categories</span>
             <h2>Find your lane</h2>

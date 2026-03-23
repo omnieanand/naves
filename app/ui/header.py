@@ -1,41 +1,47 @@
 import gradio as gr
 
 
-def render_header():
-    with gr.Row(elem_classes="site-header"):
-        gr.HTML("""
-        <div class="brand-lockup">
-            <div class="brand-mark">N</div>
-            <div>
-                <div class="brand-name">NAVES</div>
-                <div class="brand-tagline">Performance and street essentials</div>
-            </div>
-        </div>
-        """)
+def render_header(utility_links, primary_nav):
+    utility_targets = {
+        "Store Finder": "#footer",
+        "Help": "#footer",
+        "Orders and Returns": "#trust",
+        "Sign Up": "#signup",
+        "Log In": "#membership",
+    }
+    utility_items = "".join(
+        f"<a href='{utility_targets.get(item, '#top')}'>{item}</a>"
+        for item in utility_links
+    )
 
-        gr.HTML("""
-        <nav class="main-nav">
-            <a href="#new">New In</a>
-            <a href="#running">Running</a>
-            <a href="#sneakers">Sneakers</a>
-            <a href="#spotlight">Spotlight</a>
-            <a href="#membership">Membership</a>
-        </nav>
-        """)
+    gr.HTML(f"""
+    <section class="utility-nav">
+        <div class="utility-nav__links">{utility_items}</div>
+    </section>
+    """)
+
+    nav_buttons = {}
+
+    with gr.Row(elem_classes="site-header"):
+        nav_buttons["NAVES"] = gr.Button("NAVES", elem_classes="brand-button")
+
+        with gr.Row(elem_classes="main-nav-buttons"):
+            for item in primary_nav:
+                nav_buttons[item] = gr.Button(item, elem_classes="nav-button")
 
         with gr.Row(elem_classes="header-tools"):
             search = gr.Textbox(
-                placeholder="Search shoes, collections, categories...",
+                placeholder="Search",
                 container=False,
                 elem_classes="header-search",
                 show_label=False,
             )
             gr.HTML("""
-            <div class="header-actions">
-                <a href="#top">Account</a>
-                <a href="#top">Wishlist</a>
-                <a href="#top">Bag (0)</a>
+            <div class="header-icons">
+                <a href="#membership">Profile</a>
+                <a href="#product-detail">Wishlist</a>
+                <a href="#product-detail">Bag (0)</a>
             </div>
             """)
 
-    return search
+    return search, nav_buttons

@@ -3,6 +3,9 @@ products = [
         "slug": "naves-adrenaline-pro",
         "name": "Naves Adrenaline Pro",
         "category": "Running",
+        "audience": ["Men", "Women"],
+        "nav_tags": ["Shoes", "Sports & Lifestyle"],
+        "is_outlet": False,
         "price": 12999,
         "price_label": "₹12,999",
         "original_price": 14999,
@@ -31,6 +34,9 @@ products = [
         "slug": "naves-streetform",
         "name": "Naves Streetform",
         "category": "Sneakers",
+        "audience": ["Women"],
+        "nav_tags": ["Shoes", "Sports & Lifestyle"],
+        "is_outlet": False,
         "price": 9999,
         "price_label": "₹9,999",
         "original_price": None,
@@ -59,6 +65,9 @@ products = [
         "slug": "naves-pulse-elite",
         "name": "Naves Pulse Elite",
         "category": "Football",
+        "audience": ["Men"],
+        "nav_tags": ["Shoes", "Sports & Lifestyle"],
+        "is_outlet": False,
         "price": 14999,
         "price_label": "₹14,999",
         "original_price": None,
@@ -87,6 +96,9 @@ products = [
         "slug": "naves-metro-classic",
         "name": "Naves Metro Classic",
         "category": "Lifestyle",
+        "audience": ["Women", "Kids"],
+        "nav_tags": ["Shoes", "Sports & Lifestyle"],
+        "is_outlet": True,
         "price": 8499,
         "price_label": "₹8,499",
         "original_price": 9999,
@@ -115,6 +127,9 @@ products = [
         "slug": "naves-sprint-s",
         "name": "Naves Sprint S",
         "category": "Running",
+        "audience": ["Men", "Kids"],
+        "nav_tags": ["Shoes", "Sports & Lifestyle"],
+        "is_outlet": True,
         "price": 10999,
         "price_label": "₹10,999",
         "original_price": None,
@@ -143,6 +158,9 @@ products = [
         "slug": "naves-forum-edge",
         "name": "Naves Forum Edge",
         "category": "Sneakers",
+        "audience": ["Men", "Women"],
+        "nav_tags": ["Shoes", "Sports & Lifestyle"],
+        "is_outlet": False,
         "price": 11999,
         "price_label": "₹11,999",
         "original_price": None,
@@ -192,4 +210,75 @@ trust_signals = [
     "Express delivery across India",
     "Secure checkout and verified payments",
     "Members get launch-day early access",
+]
+
+utility_links = [
+    "Store Finder",
+    "Help",
+    "Orders and Returns",
+    "Sign Up",
+    "Log In",
+]
+
+primary_nav = [
+    "Shoes",
+    "Men",
+    "Women",
+    "Kids",
+    "Sports & Lifestyle",
+    "Outlet",
+]
+
+hot_stories = [
+    {
+        "title": "Naves RunLab",
+        "copy": "Built for comfort. Tuned for movement across city miles and race pace.",
+        "cta": "Shop Running",
+        "img": "https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&w=1200&q=80",
+    },
+    {
+        "title": "Naves Teamwear",
+        "copy": "Technical layers and match-day essentials with cleaner lines and stronger function.",
+        "cta": "Shop Teamwear",
+        "img": "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1200&q=80",
+    },
+    {
+        "title": "Naves Studio",
+        "copy": "Training silhouettes designed for repeat wear, support, and easy styling.",
+        "cta": "Shop Training",
+        "img": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=80",
+    },
+]
+
+style_shortcuts = [
+    "Running",
+    "Football",
+    "Originals",
+    "Training",
+]
+
+sport_tiles = [
+    {"name": "Cricket", "img": "https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=1200&q=80"},
+    {"name": "Running", "img": "https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=1200&q=80"},
+    {"name": "Training", "img": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=80"},
+    {"name": "Football", "img": "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=80"},
+]
+
+link_groups = [
+    {
+        "title": "Let's Move",
+        "items": ["Football Shoes", "Running Shoes", "Gym Training Shoes", "Cricket Shoes", "Originals Shoes"],
+    },
+    {
+        "title": "Sports Clothing",
+        "items": ["Football Jerseys", "Running Clothes", "Gym Training Clothes", "Cricket Jerseys", "Motorsport Layers"],
+    },
+    {
+        "title": "Street Icons",
+        "items": ["Aero One", "Metro Classic", "Forum Edge", "Streetform", "SL Runner"],
+    },
+    {
+        "title": "Season Collections",
+        "items": ["Never Out of Style", "Men's Summer Wear", "Women's Summer Wear", "Kids' Activewear", "Daily Essentials"],
+    },
 ]
