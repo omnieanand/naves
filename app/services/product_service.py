@@ -39,6 +39,11 @@ def get_homepage_context():
             "copy": "Performance footwear tuned for speed, confidence, and repeat wear. Designed to help athletes move with more intent every day.",
             "image": "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=1800&q=80",
             "urgency": "New drop live now | Member discount ends tonight",
+            "identity_points": [
+                "Built for runners who refuse limits",
+                "Designed for movement with identity",
+                "Performance that still looks sharp off the track",
+            ],
         },
         "hot_stories": hot_stories,
         "style_shortcuts": style_shortcuts,
@@ -136,11 +141,36 @@ def get_product_page_context(slug):
         "Fast delivery",
     ]
 
+    usage_context_map = {
+        "Running": "Built for runners who want daily comfort, responsive energy return, and a silhouette that still looks sharp after the session.",
+        "Football": "Designed for players who want fast traction, locked-in confidence, and match-ready control.",
+        "Sneakers": "Made for shoppers who want everyday identity, premium materials, and all-day wearability.",
+        "Lifestyle": "Created for everyday rotation with comfort, cleaner styling, and understated confidence.",
+    }
+
+    review_highlights = [
+        {
+            "label": "Comfort Highlight",
+            "copy": "Comfort feels immediate from the first wear.",
+        },
+        {
+            "label": "Performance Note",
+            "copy": "Support and stability stand out on longer sessions.",
+        },
+        {
+            "label": "Style Feedback",
+            "copy": "Looks strong enough for both training and everyday styling.",
+        },
+    ]
+
     return {
         "product": product,
         "sold_count": sold_count,
         "urgency_message": urgency_message,
         "trust_badges": trust_badges,
+        "usage_context": usage_context_map.get(product["category"], "Designed for people who want performance and everyday confidence."),
+        "decision_helper": "True-to-size fit with a comfort-first shape and enough support for repeat wear.",
+        "review_highlights": review_highlights,
     }
 
 

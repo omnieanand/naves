@@ -60,6 +60,7 @@ img {
     background: #eefaf0;
     box-shadow: var(--shadow);
     font-weight: 700;
+    animation: flashSlideIn 0.28s ease;
 }
 
 .utility-bar,
@@ -219,6 +220,28 @@ img {
     border: 1px solid rgba(17, 17, 17, 0.08);
     background: rgba(17, 17, 17, 0.04);
     font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.hero-identity-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.why-naves-row {
+    margin: 0 0 20px;
+}
+
+.identity-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 12px;
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    background: rgba(255, 255, 255, 0.86);
+    font-size: 0.84rem;
     font-weight: 700;
 }
 
@@ -639,6 +662,24 @@ img {
     text-transform: uppercase;
 }
 
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.detail-card {
+    padding: 16px;
+    border: 1px solid var(--line);
+    background: white;
+}
+
+.detail-card h4 {
+    margin: 0 0 8px;
+    text-transform: uppercase;
+}
+
 .review-panel {
     margin-top: 20px;
     padding: 16px;
@@ -855,6 +896,11 @@ img {
     align-self: start;
 }
 
+.cart-summary .btn {
+    width: 100%;
+    margin-top: 14px;
+}
+
 .checkout-card,
 .checkout-summary {
     padding: 22px;
@@ -936,6 +982,22 @@ img {
 
 .invoice-brand-card {
     background: linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
+}
+
+.review-highlight-card strong {
+    margin-bottom: 8px;
+    color: var(--text);
+}
+
+@keyframes flashSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .footer-grid {
@@ -1047,7 +1109,8 @@ img {
     .trust-grid,
     .link-grid,
     .footer-grid,
-    .product-gallery__thumbs {
+    .product-gallery__thumbs,
+    .detail-grid {
         grid-template-columns: 1fr;
     }
 
