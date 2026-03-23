@@ -34,10 +34,11 @@ def get_site_context():
 def get_homepage_context():
     return {
         "hero": {
-            "kicker": "New Campaign",
-            "title": "Supernova Run",
-            "copy": "Precision cushioning, sharper traction, and daily speed for athletes who want clean performance.",
+            "kicker": "Engineered For Champions",
+            "title": "Run Faster. Push Harder.",
+            "copy": "Performance footwear tuned for speed, confidence, and repeat wear. Designed to help athletes move with more intent every day.",
             "image": "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=1800&q=80",
+            "urgency": "New drop live now | Member discount ends tonight",
         },
         "hot_stories": hot_stories,
         "style_shortcuts": style_shortcuts,
@@ -45,6 +46,20 @@ def get_homepage_context():
         "sport_tiles": sport_tiles,
         "link_groups": link_groups,
         "featured_products": products[:6],
+        "brand_pillars": [
+            {
+                "title": "Performance Tested",
+                "copy": "Built to hold up through training, long runs, and daily wear.",
+            },
+            {
+                "title": "Premium Materials",
+                "copy": "Sharper uppers, better cushioning, and comfort-first construction.",
+            },
+            {
+                "title": "Trusted by Athletes",
+                "copy": "Designed for people who want confidence before every session.",
+            },
+        ],
     }
 
 
@@ -101,6 +116,32 @@ def get_related_products(slug, limit=4):
             if product["slug"] != slug and product not in related
         )
     return related[:limit]
+
+
+def get_product_page_context(slug):
+    product = get_product_by_slug(slug)
+    if not product:
+        return None
+
+    sold_count = max(1000, product["reviews"] * 9)
+    urgency_message = ""
+    if "Low" in product["stock_status"] or "Limited" in product["stock_status"]:
+        urgency_message = "Only a few pairs left in stock"
+    elif product["is_outlet"]:
+        urgency_message = "Sale price available for a limited time"
+
+    trust_badges = [
+        "14-day returns",
+        "Secure checkout",
+        "Fast delivery",
+    ]
+
+    return {
+        "product": product,
+        "sold_count": sold_count,
+        "urgency_message": urgency_message,
+        "trust_badges": trust_badges,
+    }
 
 
 def get_cart_items(cart_map):

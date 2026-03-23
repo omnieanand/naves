@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, abort, redirect, render_template, request, session, url_for
+from flask import Flask, abort, flash, redirect, render_template, request, session, url_for
 
 from app.services.product_service import (
     NAV_ROUTE_MAP,
@@ -14,6 +14,7 @@ from app.services.product_service import (
     get_filter_options,
     get_homepage_context,
     get_nav_products,
+    get_product_page_context,
     get_product_by_slug,
     get_related_products,
     get_site_context,
@@ -98,13 +99,14 @@ def outlet():
 
 @app.route("/products/<slug>")
 def product_detail(slug):
-    product = get_product_by_slug(slug)
-    if not product:
+    product_page = get_product_page_context(slug)
+    if not product_page:
         abort(404)
 
     return render_template(
         "product.html",
-        product=product,
+        product=product_page["product"],
+        product_page=product_page,
         related_products=get_related_products(slug),
     )
 
@@ -113,11 +115,13 @@ def product_detail(slug):
 def cart():
     cart_map = session.get("cart", {})
     items, subtotal, total_items = get_cart_items(cart_map)
+    summary = get_checkout_summary(cart_map)
     return render_template(
         "cart.html",
         cart_items=items,
         subtotal=subtotal,
         total_items=total_items,
+        cart_summary=summary,
     )
 
 
@@ -182,6 +186,7 @@ def place_order():
     session["last_order"] = invoice
     session["checkout_form"] = shipping_form
     session["cart"] = {}
+    flash("Order placed successfully. Your invoice is ready.", "success")
     return redirect(url_for("invoice"))
 
 
@@ -206,6 +211,7 @@ def add_to_cart():
     cart_map = session.get("cart", {})
     cart_map[slug] = cart_map.get(slug, 0) + quantity
     session["cart"] = cart_map
+    flash("Added to bag successfully.", "success")
     return redirect(redirect_to)
 
 

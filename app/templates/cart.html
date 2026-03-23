@@ -19,6 +19,9 @@
                 <h3><a href="{{ url_for('product_detail', slug=item.product.slug) }}">{{ item.product.name }}</a></h3>
                 <p>{{ item.product.category }} | {{ item.product.price_label }}</p>
                 <p>{{ item.product.delivery }}</p>
+                {% if "Low" in item.product.stock_status or "Limited" in item.product.stock_status %}
+                    <div class="urgency-banner">{{ item.product.stock_status }} | Checkout soon to secure your pair</div>
+                {% endif %}
 
                 <div class="cart-item__actions">
                     <form action="{{ url_for('update_cart') }}" method="post">
@@ -49,10 +52,23 @@
         </div>
         <div class="summary-row">
             <span>Subtotal</span>
-            <strong>₹{{ "{:,}".format(subtotal) }}</strong>
+            <strong>{{ cart_summary.subtotal_label }}</strong>
         </div>
-        <p>Shipping and taxes are calculated at checkout.</p>
+        <div class="summary-row">
+            <span>Estimated Shipping</span>
+            <span>{{ cart_summary.shipping_label }}</span>
+        </div>
+        <div class="summary-row">
+            <span>Estimated Taxes</span>
+            <span>{{ cart_summary.taxes_label }}</span>
+        </div>
+        <div class="summary-row summary-row--total">
+            <strong>Estimated Total</strong>
+            <strong>{{ cart_summary.total_label }}</strong>
+        </div>
+        <p>Shipping and taxes are estimated here and finalized at checkout.</p>
         <a class="btn btn-dark" href="{{ url_for('checkout') }}">Proceed to Checkout</a>
+        <a class="btn btn-light" href="{{ url_for('shoes') }}">Continue Shopping</a>
     </aside>
 </section>
 {% else %}

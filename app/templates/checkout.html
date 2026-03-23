@@ -59,6 +59,10 @@
             <h2>Standard Delivery</h2>
             <p>{{ checkout.delivery_note }}</p>
             <p>{{ checkout.shipping_label }} {% if checkout.shipping == 0 %}on this order{% endif %}</p>
+            <div class="trust-inline-row">
+                <span class="trust-pill">14-day returns</span>
+                <span class="trust-pill">Live tracking</span>
+            </div>
         </article>
 
         <article class="checkout-card">
@@ -69,7 +73,10 @@
                 <label><input type="radio" name="payment_method" value="UPI" {% if checkout_form.payment_method == 'UPI' %}checked{% endif %}> UPI</label>
                 <label><input type="radio" name="payment_method" value="Cash on Delivery" {% if checkout_form.payment_method == 'Cash on Delivery' %}checked{% endif %}> Cash on Delivery</label>
             </div>
-            <p>Secure payment processing with invoice generation after order placement.</p>
+            <div class="checkout-trust">
+                <strong>🔒 Secure checkout</strong>
+                <p>Protected payment flow, verified order summary, and invoice generation after placement.</p>
+            </div>
         </article>
     </div>
 

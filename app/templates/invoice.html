@@ -11,10 +11,20 @@
 
 <section class="invoice-layout">
     <div class="invoice-main">
+        <article class="checkout-card invoice-brand-card">
+            <span class="kicker">Official Invoice</span>
+            <h2>NAVES</h2>
+            <p>Performance footwear and sport-led essentials</p>
+        </article>
+
         <article class="checkout-card">
             <span class="kicker">Invoice</span>
             <h2>{{ order.order_number }}</h2>
             <p>Placed on {{ order.placed_at }}</p>
+            <div class="trust-inline-row">
+                <span class="trust-pill">Paid</span>
+                <span class="trust-pill">Confirmed</span>
+            </div>
         </article>
 
         <article class="checkout-card">

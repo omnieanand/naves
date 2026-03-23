@@ -21,6 +21,11 @@
 
     <div class="product-summary">
         <span class="kicker">{{ product.badge }}</span>
+        <div class="product-proof-row">
+            <span>⭐ {{ product.rating }} / 5</span>
+            <span>{{ product.reviews }} reviews</span>
+            <span>{{ product_page.sold_count }}+ sold</span>
+        </div>
         <div class="price-row">
             <strong>{{ product.price_label }}</strong>
             {% if product.original_price_label %}
@@ -31,6 +36,14 @@
             <span>{{ product.category }}</span>
             <span>{{ product.stock_status }}</span>
             <span>{{ product.delivery }}</span>
+        </div>
+        {% if product_page.urgency_message %}
+        <div class="urgency-banner">{{ product_page.urgency_message }}</div>
+        {% endif %}
+        <div class="trust-inline-row">
+            {% for badge in product_page.trust_badges %}
+                <span class="trust-pill">{{ badge }}</span>
+            {% endfor %}
         </div>
 
         <div class="detail-block">
@@ -58,6 +71,11 @@
                     <li>{{ feature }}</li>
                 {% endfor %}
             </ul>
+        </div>
+
+        <div class="review-panel">
+            <h4>Why buyers are choosing it</h4>
+            <p>Customers call out the comfort, support, and confidence-inspiring fit for daily training and city wear.</p>
         </div>
 
         <p class="fit-note">{{ product.fit_note }}</p>

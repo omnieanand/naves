@@ -8,11 +8,28 @@
     <div class="hero-overlay">
         <span class="kicker">{{ hero.kicker }}</span>
         <h1>{{ hero.title }}</h1>
-        <p>{{ hero.copy }}</p>
+        <p>{{ hero["copy"] }}</p>
+        <div class="hero-urgency">{{ hero.urgency }}</div>
         <div class="cta-row">
             <a class="btn btn-light" href="{{ url_for('men') }}">Shop Men</a>
             <a class="btn btn-light" href="{{ url_for('women') }}">Shop Women</a>
         </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <span class="kicker">Why NAVES</span>
+        <h2>Built with intent, not just styled to look fast.</h2>
+        <p>Give shoppers a reason to trust the brand before they compare products or prices.</p>
+    </div>
+    <div class="trust-grid brand-pillar-grid">
+        {% for pillar in brand_pillars %}
+        <div class="trust-card brand-pillar-card">
+            <strong>{{ pillar.title }}</strong>
+            <p>{{ pillar["copy"] }}</p>
+        </div>
+        {% endfor %}
     </div>
 </section>
 
